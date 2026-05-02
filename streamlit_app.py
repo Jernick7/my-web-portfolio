@@ -460,7 +460,7 @@ def get_model():
         st.error("Missing GEMINI_API_KEY. Add it to Streamlit Secrets to activate Proxy.")
         return None
     genai.configure(api_key=api_key)
-    return genai.GenerativeModel('gemini-pro')
+    return genai.GenerativeModel('gemini-1.5-flash', system_instruction=SYSTEM_INSTRUCTIONS)
 
 # --- HEADER SECTION ---
 st.markdown(f"""
