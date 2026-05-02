@@ -14,16 +14,15 @@ st.set_page_config(page_title="Jernick Samuel | Portfolio", page_icon="🚀", la
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
-    
-    /* Global Reset & Theme */
+      /* Global Reset & Theme */
     .stApp {
         background-color: #050505;
         background-image: 
             radial-gradient(circle at 20% 30%, rgba(0, 255, 136, 0.05) 0%, transparent 50%),
             radial-gradient(circle at 80% 70%, rgba(0, 255, 136, 0.05) 0%, transparent 50%),
-            linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
-        background-size: 100% 100%, 100% 100%, 50px 50px, 50px 50px;
+            linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+        background-size: 100% 100%, 100% 100%, 60px 60px, 60px 60px;
         background-attachment: fixed;
         color: #e0e0e0;
         font-family: 'Inter', sans-serif;
@@ -31,9 +30,9 @@ st.markdown("""
 
     /* Background Animation */
     @keyframes glow-pulse {
-        0% { opacity: 0.5; }
-        50% { opacity: 1; }
-        100% { opacity: 0.5; }
+        0% { opacity: 0.4; }
+        50% { opacity: 0.8; }
+        100% { opacity: 0.4; }
     }
 
     .stApp::before {
@@ -43,117 +42,77 @@ st.markdown("""
         left: 0;
         width: 100%;
         height: 100%;
-        background: radial-gradient(circle at center, rgba(0, 255, 136, 0.03) 0%, transparent 70%);
+        background: radial-gradient(circle at center, rgba(0, 255, 136, 0.01) 0%, transparent 70%);
         pointer-events: none;
-        animation: glow-pulse 10s ease-in-out infinite;
+        animation: glow-pulse 12s ease-in-out infinite;
         z-index: -1;
     }
 
     /* Neon Green Glow */
     .highlight {
         color: #00ff88;
-        text-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+        text-shadow: 0 0 25px rgba(0, 255, 136, 0.4);
     }
 
     h1, h2, h3 {
         font-family: 'Space Grotesk', sans-serif !important;
-        letter-spacing: -0.05em !important;
+        letter-spacing: -0.06em !important;
         font-weight: 700 !important;
+        color: white;
     }
 
-    /* Code Bio Style */
-    .code-bio {
-        background: rgba(0, 0, 0, 0.5);
-        border: 1px solid rgba(0, 255, 136, 0.1);
+    /* Modern Bio Style */
+    .modern-bio {
+        font-size: 1.25rem;
+        line-height: 1.6;
+        color: rgba(255, 255, 255, 0.8);
         border-left: 3px solid #00ff88;
-        padding: 1.5rem;
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 0.85rem;
-        border-radius: 4px 12px 12px 4px;
-        margin-bottom: 2.5rem;
+        padding-left: 2.5rem;
+        margin: 4rem 0;
+        max-width: 800px;
         position: relative;
-        overflow: hidden;
-        box-shadow: inset 0 0 20px rgba(0, 255, 136, 0.05);
     }
 
-    /* Identity Log - Terminal Style */
+    .bio-accent {
+        font-family: monospace;
+        color: #00ff88;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.2rem;
+        display: block;
+        margin-bottom: 1rem;
+        opacity: 0.7;
+    }
+
+    /* Form - Digital Vault Aesthetic */
     div[data-testid="stForm"] {
-        background: rgba(0, 255, 136, 0.01) !important;
+        background: rgba(0, 0, 0, 0.2) !important;
         border: 1px solid rgba(0, 255, 136, 0.1) !important;
-        border-radius: 24px !important;
-        padding: 3rem !important;
+        border-radius: 40px !important;
+        padding: 4rem !important;
+        box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5) !important;
         position: relative;
-        overflow: hidden;
-        box-shadow: 0 0 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 255, 136, 0.05) !important;
     }
 
-    div[data-testid="stForm"]::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: repeating-linear-gradient(
-            0deg,
-            transparent,
-            transparent 2px,
-            rgba(0, 255, 136, 0.02) 2px,
-            rgba(0, 255, 136, 0.02) 4px
-        );
-        pointer-events: none;
-    }
-
-    @keyframes border-glow {
-        0% { border-color: rgba(0, 255, 136, 0.1); }
+    @keyframes form-pulse {
+        0%, 100% { border-color: rgba(0, 255, 136, 0.1); }
         50% { border-color: rgba(0, 255, 136, 0.4); }
-        100% { border-color: rgba(0, 255, 136, 0.1); }
     }
 
     div[data-testid="stForm"] {
-        animation: border-glow 4s ease-in-out infinite;
+        animation: form-pulse 6s infinite ease-in-out;
     }
 
-    .code-keyword { color: #ff79c6; }
-    .code-string { color: #f1fa8c; }
-    .code-comment { color: #6272a4; font-weight: 300; }
-    .code-function { color: #50fa7b; }
-
-    /* Bento Grid Elements */
-    .bento-container {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1.5rem;
-        margin-top: 2rem;
-    }
-
-    .bento-item, .bento-card {
-        background: rgba(255, 255, 255, 0.01);
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        border-radius: 20px;
-        padding: 2rem;
-        transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-        position: relative;
-        overflow: hidden;
-    }
-
-    .bento-item::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: radial-gradient(800px circle at var(--x) var(--y), rgba(0, 255, 136, 0.05), transparent 40%);
-        opacity: 0;
-        transition: opacity 0.5s;
-    }
-
-    .bento-item:hover {
-        background: rgba(0, 255, 136, 0.02);
-        border-color: rgba(0, 255, 136, 0.3);
-        box-shadow: 0 0 30px rgba(0, 255, 136, 0.1);
-        transform: translateY(-5px);
+    /* Input Styling */
+    .stTextInput input, .stTextArea textarea {
+        background-color: transparent !important;
+        border: none !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 0 !important;
+        color: white !important;
+        padding: 1.8rem 0 0.8rem 0 !important;
+        font-size: 1.1rem !important;
+        transition: all 0.4s ease !important;
     }
 
     /* Chat Styling - Technical */
@@ -170,46 +129,76 @@ st.markdown("""
         line-height: 1.6 !important;
     }
 
+    /* Bento Grid Elements - NVIDIA Aesthetic */
+    .bento-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+
+    .bento-item, .bento-card {
+        background: rgba(255, 255, 255, 0.02);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 32px;
+        padding: 2.5rem;
+        transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .bento-item:hover, .bento-card:hover {
+        background: rgba(0, 255, 136, 0.01);
+        border-color: rgba(0, 255, 136, 0.4);
+        box-shadow: 0 0 60px rgba(0, 255, 136, 0.1);
+        transform: translateY(-8px);
+    }
+
     .bento-icon {
         color: #00ff88;
-        font-size: 1.2rem;
-        margin-bottom: 0.5rem;
+        font-size: 1.6rem;
+        margin-bottom: 0.75rem;
+        filter: drop-shadow(0 0 10px rgba(0, 255, 136, 0.4));
     }
 
     .bento-title {
-        font-weight: 600;
-        font-size: 1rem;
-        margin-bottom: 0.2rem;
+        font-weight: 700;
+        font-size: 1.25rem;
+        margin-bottom: 0.4rem;
         color: white;
+        letter-spacing: -0.04em;
     }
 
     .bento-desc {
-        font-size: 0.8rem;
-        color: rgba(255, 255, 255, 0.5);
+        font-size: 0.95rem;
+        color: rgba(255, 255, 255, 0.45);
+        line-height: 1.5;
     }
 
-    /* Submit Button - NVIDIA Glow */
+    /* Submit Button - The Glow */
     div[data-testid="stButton"] button {
-        background: rgba(255, 255, 255, 0.05) !important;
+        background: rgba(255, 255, 255, 0.03) !important;
         border: 1px solid rgba(255, 255, 255, 0.1) !important;
         color: white !important;
-        border-radius: 12px !important;
-        padding: 0.75rem 2rem !important;
+        border-radius: 16px !important;
+        padding: 1.2rem 3.5rem !important;
         font-family: 'Space Grotesk', sans-serif !important;
         font-weight: 700 !important;
         text-transform: uppercase;
-        letter-spacing: 0.2rem;
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+        letter-spacing: 0.4rem;
+        transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1) !important;
         width: 100% !important;
-        margin: 1rem 0 !important;
+        margin-top: 3rem !important;
+        margin-bottom: 1rem !important;
     }
 
     div[data-testid="stButton"] button:hover {
         background: #00ff88 !important;
         color: black !important;
         border-color: #00ff88 !important;
-        box-shadow: 0 0 40px rgba(0, 255, 136, 0.8) !important;
-        transform: translateY(-5px) !important;
+        box-shadow: 0 0 60px rgba(0, 255, 136, 0.9) !important;
+        transform: translateY(-8px) scale(1.02);
     }
 
     /* Intelligence Terminal - border-bottom inputs */
@@ -270,52 +259,42 @@ def get_model():
 
 # --- HEADER SECTION ---
 st.markdown(f"""
-<div style='text-align: center; padding: 4rem 0 2rem 0;'>
-<p style='font-family: monospace; color: #00ff88; letter-spacing: 0.5em; text-transform: uppercase; font-size: 0.7rem; margin-bottom: 1rem;'>Protocol: Introduction</p>
-<h1 style='font-size: 4rem; line-height: 1; margin: 0;'>About <br><span class='highlight' style='font-size: 5rem;'>V Jernick Samuel</span></h1>
+<div style='text-align: center; padding: 6rem 0 4rem 0;'>
+<p style='font-family: monospace; color: #00ff88; letter-spacing: 0.6em; text-transform: uppercase; font-size: 0.75rem; margin-bottom: 1.5rem; opacity: 0.8;'>SYSTEM: IDENTITY_LOG_V2</p>
+<h1 style='font-size: 5.5rem; line-height: 0.9; margin: 0; font-weight: 800;'>V Jernick <br><span class='highlight' style='font-size: 7.5rem;'>Samuel</span></h1>
 </div>
 """, unsafe_allow_html=True)
 
 # --- SECTION 1: BENTO ABOUT ME ---
 st.markdown(f"""
 <div style='max-width: 800px; margin: 0 auto;'>
-<div class="code-bio">
-<span class="code-comment">// Protocol: About Me</span><br>
-<span class="code-keyword">const</span> <span class="code-function">innovationTarget</span> = <span class="code-string">"electronics | space | defense"</span>;<br>
-<br>
-<span class="code-keyword">class</span> <span class="code-function">JernickSamuel</span> {{<br>
-&nbsp;&nbsp;<span class="code-keyword">constructor</span>() {{<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">this</span>.age = <span class="code-string">18</span>;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">this</span>.location = <span class="code-string">"India"</span>;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">this</span>.focus = [<span class="code-string">"VLSI"</span>, <span class="code-string">"Semiconductors"</span>, <span class="code-string">"High-Power Rocketry"</span>];<br>
-&nbsp;&nbsp;}}<br>
-<br>
-&nbsp;&nbsp;<span class="code-function">status</span>() {{<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">return</span> <span class="code-string">"Deeply immersed in the world of silicon and aerospace."</span>;<br>
-&nbsp;&nbsp;}}<br>
-}}<br>
+<div class="modern-bio">
+<span class="bio-accent">Protocol: Personal Intelligence</span>
+I am an 18-year-old innovator from <span style="color: white; font-weight: 600;">India</span>, 
+obsessively exploring the intersection of <span class="highlight">silicon and aerospace</span>. 
+My work revolves around VLSI architecture, semiconductor physics, and high-power rocketry.
 </div>
 
 <div class="bento-container">
 <div class="bento-item">
 <div class="bento-icon">/_</div>
 <div class="bento-title">Codebase</div>
-<div class="bento-desc">Python, C++, Verilog</div>
+<div class="bento-desc">Expertise in Python, C++, and hardware verification with Verilog.</div>
 </div>
 <div class="bento-item">
 <div class="bento-icon">🚀</div>
 <div class="bento-title">Aerospace</div>
-<div class="bento-desc">High-Power Rocketry & Drones</div>
+<div class="bento-desc">Designing propulsion systems for high-power rocketry & autonomous drones.</div>
 </div>
 <div class="bento-item">
 <div class="bento-icon">📺</div>
 <div class="bento-title">Entertainment</div>
-<div class="bento-desc">Stranger Things, 3 Body Problem</div>
+<div class="bento-desc">Captivated by the complex narratives of 3-Body Problem & Stranger Things.</div>
 </div>
 <div class="bento-item">
 <div class="bento-icon">🏎️</div>
 <div class="bento-title">Passions</div>
-<div class="bento-desc">Formula 1, Football, Physics</div>
+<div class="bento-desc">Formula 1 dynamics, football strategy, and pure theoretical physics.</div>
 </div>
 </div>
 
