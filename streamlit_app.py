@@ -15,76 +15,138 @@ st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
     
-    /* Main Background */
+    /* Global Reset & Theme */
     .stApp {
         background-color: #050505;
-        color: #f9f9f9;
+        color: #e0e0e0;
         font-family: 'Inter', sans-serif;
+    }
+
+    [data-testid="stHeader"] {
+        background: rgba(5, 5, 5, 0.8);
+        backdrop-filter: blur(10px);
     }
 
     h1, h2, h3 {
         font-family: 'Space Grotesk', sans-serif !important;
-        letter-spacing: -0.02em;
+        letter-spacing: -0.04em !important;
+        color: white;
     }
 
     /* Neon Green Glow */
     .highlight {
         color: #00ff88;
-        text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        text-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
     }
 
-    /* Glassmorphic Cards */
-    .glass-card {
-        background: rgba(255, 255, 255, 0.03);
-        backdrop-filter: blur(16px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+    /* Bento Grid Elements */
+    .bento-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.08);
         border-radius: 24px;
         padding: 2rem;
-        margin-bottom: 2rem;
-        transition: all 0.3s ease;
-    }
-    
-    .glass-card:hover {
-        border-color: rgba(0, 255, 136, 0.4);
-        box-shadow: 0 0 30px rgba(0, 255, 136, 0.05);
+        height: 100%;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 
-    /* Chat Styling */
+    .bento-card:hover {
+        border-color: rgba(0, 255, 136, 0.5);
+        background: rgba(0, 255, 136, 0.02);
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .tag-container {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        margin-top: 1rem;
+    }
+
+    .tag {
+        padding: 4px 12px;
+        background: rgba(0, 255, 136, 0.1);
+        border: 1px solid rgba(0, 255, 136, 0.2);
+        color: #00ff88;
+        font-family: monospace;
+        font-size: 0.7rem;
+        border-radius: 100px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    /* Chat Styling - Sleeker */
     .stChatMessage {
-        background: rgba(255, 255, 255, 0.05) !important;
-        border-radius: 15px !important;
+        background: rgba(255, 255, 255, 0.03) !important;
+        border: 1px solid rgba(255, 255, 255, 0.05) !important;
+        border-radius: 20px !important;
+        margin-bottom: 1rem !important;
     }
 
-    /* Input Styling */
+    /* Intelligence Terminal Form */
+    .terminal-header {
+        font-family: monospace;
+        color: #00ff88;
+        font-size: 0.8rem;
+        margin-bottom: 0.5rem;
+        opacity: 0.8;
+    }
+
     .stTextInput input, .stTextArea textarea {
-        background-color: rgba(255, 255, 255, 0.03) !important;
+        background-color: rgba(255, 255, 255, 0.02) !important;
         border: 1px solid rgba(255, 255, 255, 0.1) !important;
         color: white !important;
-        border-radius: 12px !important;
+        border-radius: 16px !important;
+        padding: 1rem !important;
+        font-size: 1rem !important;
     }
 
-    /* Button Styling */
-    .stButton button {
-        background-color: #00ff88 !important;
-        color: black !important;
-        font-weight: 700 !important;
-        border-radius: 12px !important;
-        border: none !important;
-        width: 100%;
-        padding: 0.75rem !important;
-        transition: transform 0.2s ease !important;
+    .stTextInput input:focus, .stTextArea textarea:focus {
+        border-color: #00ff88 !important;
+        box-shadow: 0 0 10px rgba(0, 255, 136, 0.2) !important;
     }
-    
+
+    /* Submit Button - NVIDIA Style */
+    .stButton button {
+        background: linear-gradient(135deg, #00ff88 0%, #00bc6e 100%) !important;
+        color: #000 !important;
+        border: none !important;
+        padding: 1rem 2rem !important;
+        border-radius: 16px !important;
+        font-weight: 700 !important;
+        font-family: 'Space Grotesk', sans-serif !important;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: all 0.3s ease !important;
+        width: 100% !important;
+    }
+
     .stButton button:hover {
         transform: scale(1.02);
-        box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+        box-shadow: 0 0 25px rgba(0, 255, 136, 0.5);
     }
 
-    /* Spotify Embed Wrapper */
-    .spotify-container {
-        border-radius: 12px;
-        overflow: hidden;
-        margin-top: 1rem;
+    /* Sidebar / Navigation (if used) */
+    .css-1d391kg {
+        background-color: #050505;
+    }
+
+    /* Spotify Wrapper */
+    .spotify-box {
+        border-left: 2px solid #00ff88;
+        background: rgba(0, 255, 136, 0.02);
+        padding: 1rem;
+        border-radius: 0 12px 12px 0;
+    }
+
+    hr {
+        border: none;
+        height: 1px;
+        background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent);
+        margin: 4rem 0;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -111,106 +173,165 @@ def get_model():
 
 # --- HEADER SECTION ---
 st.markdown(f"""
-    <div style='text-align: center; padding: 2rem 0;'>
-        <p style='font-family: monospace; color: #00ff88; letter-spacing: 0.3em; text-transform: uppercase; font-size: 0.8rem;'>Protocol: Introduction</p>
-        <h1 style='font-size: 3.5rem; margin: 0;'>About <span class='highlight'>V Jernick Samuel</span></h1>
+    <div style='text-align: center; padding: 4rem 0 2rem 0;'>
+        <p style='font-family: monospace; color: #00ff88; letter-spacing: 0.5em; text-transform: uppercase; font-size: 0.7rem; margin-bottom: 1rem;'>Protocol: Introduction</p>
+        <h1 style='font-size: 4rem; line-height: 1; margin: 0;'>About <br><span class='highlight' style='font-size: 5rem;'>V Jernick Samuel</span></h1>
     </div>
 """, unsafe_allow_html=True)
 
-# --- SECTION 1: ABOUT ME ---
-with st.container():
+# --- SECTION 1: BENTO ABOUT ME ---
+st.markdown("<br>", unsafe_allow_html=True)
+col1, col2 = st.columns([1.5, 1])
+
+with col1:
     st.markdown("""
-    <div class="glass-card">
-        <p style="font-size: 1.1rem; line-height: 1.7; color: rgba(255,255,255,0.8);">
-            I am an 18-year-old innovator from <span style="color: white; font-weight: 600;">India</span>. 
-            My work exists at the intersection of <span class="highlight">electronics, space, and defense</span>. 
-            I specialize in VLSI, semiconductor design, and high-power rocketry.
+    <div class="bento-card">
+        <h3 style="margin-top: 0;">Visionary Core</h3>
+        <p style="font-size: 1.1rem; line-height: 1.6; color: rgba(255,255,255,0.7); margin-bottom: 2rem;">
+            Innovator based in <span style="color: white; font-weight: 600;">India</span>. 
+            Exploring the limits of <span class="highlight">silicon and space</span>. 
+            Focused on high-power rocketry and semiconductor architecture.
         </p>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem;">
-            <div style="padding: 1rem; background: rgba(255,255,255,0.03); border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
-                <p style="font-size: 0.7rem; color: #00ff88; margin: 0;">DEVELOPMENT</p>
-                <p style="font-size: 0.9rem; margin: 0;">Python, C++, Verilog</p>
-            </div>
-            <div style="padding: 1rem; background: rgba(255,255,255,0.03); border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
-                <p style="font-size: 0.7rem; color: #00ff88; margin: 0;">AEROSPACE</p>
-                <p style="font-size: 0.9rem; margin: 0;">VLSI & Rocketry</p>
-            </div>
+        <div class="tag-container">
+            <span class="tag">VLSI</span>
+            <span class="tag">PCMB</span>
+            <span class="tag">Semiconductors</span>
+            <span class="tag">Defense Tech</span>
         </div>
     </div>
     """, unsafe_allow_html=True)
 
-    # Spotify Element
-    st.markdown('<p style="font-family: monospace; font-size: 0.7rem; color: rgba(255,255,255,0.3); margin-left: 1rem;">AUDIO FEED / ACTIVE</p>', unsafe_allow_html=True)
-    components.html("""
-        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/3dA8m5G6o4cppV7Cj4BZAH?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-    """, height=160)
+with col2:
+    st.markdown("""
+    <div class="bento-card" style="text-align: center;">
+        <p style="font-family: monospace; font-size: 0.7rem; color: #00ff88; margin-bottom: 0.5rem;">PRIMARY OPS</p>
+        <h2 style="margin: 0; font-size: 3rem;">ISC</h2>
+        <p style="font-family: monospace; font-size: 0.8rem; opacity: 0.5;">Class 12 Architecture</p>
+        <div style="height: 1px; width: 40%; background: #00ff88; margin: 1rem auto; opacity: 0.3;"></div>
+        <p style="font-size: 0.9rem; opacity: 0.8;">Python | C++ | Verilog</p>
+    </div>
+    """, unsafe_allow_html=True)
 
-# --- SECTION 2: AI ASSISTANT ---
-st.markdown("---")
-st.markdown("<h2 style='text-align: center;'>Ask My <span class='highlight'>Digital Proxy</span></h2>", unsafe_allow_html=True)
+st.markdown("<br>", unsafe_allow_html=True)
+# Audio Section
+st.markdown("""
+    <div class="spotify-box">
+        <p style="font-family: monospace; font-size: 0.7rem; color: #00ff88; margin-bottom: 0.5rem; letter-spacing: 2px;">SECURE AUDIO LINK / LIVE</p>
+    </div>
+""", unsafe_allow_html=True)
+components.html("""
+    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/3dA8m5G6o4cppV7Cj4BZAH?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+""", height=160)
+
+# --- SECTION 2: AI PROXY ---
+st.markdown("<hr>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; font-family: monospace; color: #00ff88; font-size: 0.8rem; letter-spacing: 0.3em; margin-bottom: 0;'>NEURAL INTERFACE</p>", unsafe_allow_html=True)
+st.markdown("<h2 style='text-align: center; margin-top: 0.5rem;'>Digital <span class='highlight'>Proxy</span></h2>", unsafe_allow_html=True)
 
 model = get_model()
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Display chat history
-for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        st.markdown(message["content"])
+# Chat display in a contained area
+chat_container = st.container()
+with chat_container:
+    for message in st.session_state.messages:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
 
 # Chat input
-if prompt := st.chat_input("Ask about my projects or research..."):
+if prompt := st.chat_input("Query local history or projects..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
-    with st.chat_message("user"):
-        st.markdown(prompt)
+    with chat_container:
+        with st.chat_message("user"):
+            st.markdown(prompt)
 
     if model:
-        with st.chat_message("assistant"):
-            response_placeholder = st.empty()
-            full_response = ""
-            try:
-                # Basic context management
-                history = [{"role": "user" if m["role"] == "user" else "model", "parts": [m["content"]]} for m in st.session_state.messages]
-                chat = model.start_chat(history=history[:-1])
-                response = chat.send_message(prompt)
-                full_response = response.text
-                response_placeholder.markdown(full_response)
-            except Exception as e:
-                full_response = "Connection timeout. Ensure API key is configured."
-                response_placeholder.error(full_response)
-            
-            st.session_state.messages.append({"role": "assistant", "content": full_response})
+        with chat_container:
+            with st.chat_message("assistant"):
+                response_placeholder = st.empty()
+                full_response = ""
+                try:
+                    history = [{"role": "user" if m["role"] == "user" else "model", "parts": [m["content"]]} for m in st.session_state.messages]
+                    chat = model.start_chat(history=history[:-1])
+                    response = chat.send_message(prompt)
+                    full_response = response.text
+                    response_placeholder.markdown(full_response)
+                except Exception as e:
+                    full_response = "Interface offline. Verify API configuration."
+                    response_placeholder.error(full_response)
+                
+                st.session_state.messages.append({"role": "assistant", "content": full_response})
 
-# --- SECTION 3: VISITOR FEEDBACK ---
-st.markdown("---")
+# --- SECTION 3: INTELLIGENCE TERMINAL ---
+st.markdown("<hr>", unsafe_allow_html=True)
 st.markdown("""
-    <div style='text-align: center; margin-bottom: 2rem;'>
-        <p style='font-family: monospace; color: #00ff88; letter-spacing: 0.3em; text-transform: uppercase; font-size: 0.8rem;'>Identity Log</p>
-        <h2>Leave a <span class='highlight'>Trace</span></h2>
-    </div>
+<div style='text-align: center; margin-bottom: 3rem;'>
+    <p class="terminal-header">IDENTITY LOG V2.0</p>
+    <h2>Leave a <span class='highlight'>Trace</span></h2>
+</div>
 """, unsafe_allow_html=True)
 
-with st.form("feedback_form", clear_on_submit=True):
-    v_name = st.text_input("YOUR NAME")
-    v_email = st.text_input("YOUR EMAIL (for replies)")
-    v_content = st.text_area("FEEDBACK / INTEL")
+# Custom Bento Form
+col_form1, col_form2 = st.columns([1, 1])
+
+with st.form("terminal_intel", clear_on_submit=True):
+    with col_form1:
+        v_name = st.text_input("IDENTIFIER NAME", placeholder="User-77")
+    with col_form2:
+        v_email = st.text_input("REPLY ADDRESS", placeholder="agent@network.com")
+        
+    v_content = st.text_area("INTEL / FEEDBACK", placeholder="Transmission begins...")
     
-    submit_button = st.form_submit_button("SUBMIT INTELLIGENCE")
+    st.markdown("<br>", unsafe_allow_html=True)
+    submit_button = st.form_submit_button("SYNC TO NEURAL CORE")
     
     if submit_button:
         if v_name and v_email and v_content:
-            # Replicate the feedback alert
-            st.success(f"Thank you, {v_name}! Your insights have been logged to the neural core.")
-            # Note: To save to Firebase in Python, you'd add the firebase-admin logic here
+            st.success(f"Log entry successful. Connection established, {v_name}.")
         else:
-            st.warning("All fields are required to maintain data integrity.")
+            st.error("Incomplete packet. Required fields missing.")
+
+# --- PROJECTS BENTO (OPTIONAL - GIVING MORE CONTENT) ---
+st.markdown("<hr>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; font-family: monospace; color: #00ff88; font-size: 0.8rem; letter-spacing: 0.3em; margin-bottom: 0;'>ACTIVE REPOSITORY</p>", unsafe_allow_html=True)
+st.markdown("<h2 style='text-align: center; margin-top: 0.5rem;'>Key <span class='highlight'>Deployments</span></h2>", unsafe_allow_html=True)
+
+pcol1, pcol2, pcol3 = st.columns(3)
+with pcol1:
+    st.markdown("""
+    <div class="bento-card">
+        <p style="font-size: 0.7rem; color: #00ff88; font-family: monospace;">01. LITERARY</p>
+        <p style="font-weight: 700; font-size: 1.1rem;">Edith Proj</p>
+        <p style="font-size: 0.8rem; opacity: 0.6;">The Realm That Should Not Exist.</p>
+    </div>
+    """, unsafe_allow_html=True)
+with pcol2:
+    st.markdown("""
+    <div class="bento-card">
+        <p style="font-size: 0.7rem; color: #00ff88; font-family: monospace;">02. VENTURE</p>
+        <p style="font-weight: 700; font-size: 1.1rem;">Money El</p>
+        <p style="font-size: 0.8rem; opacity: 0.6;">3D-Printing business architecture.</p>
+    </div>
+    """, unsafe_allow_html=True)
+with pcol3:
+    st.markdown("""
+    <div class="bento-card">
+        <p style="font-size: 0.7rem; color: #00ff88; font-family: monospace;">03. SYSTEMS</p>
+        <p style="font-weight: 700; font-size: 1.1rem;">Chore App</p>
+        <p style="font-size: 0.8rem; opacity: 0.6;">Streamlit-based ops tracker.</p>
+    </div>
+    """, unsafe_allow_html=True)
 
 # --- FOOTER ---
 st.markdown(f"""
-    <div style='text-align: center; padding: 4rem 0; opacity: 0.3; font-family: monospace; font-size: 0.8rem; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 4rem;'>
-        © 2026 V JERNICK SAMUEL. ALL SYSTEMS NOMINAL.<br><br>
-        <a href='https://www.linkedin.com/in/jernick7' style='color: white; text-decoration: none; margin: 0 10px;'>LINKEDIN</a> | 
-        <a href='https://www.instagram.com/jernick7/' style='color: white; text-decoration: none; margin: 0 10px;'>INSTAGRAM</a> | 
-        <a href='https://github.com/Jernick7' style='color: white; text-decoration: none; margin: 0 10px;'>GITHUB</a>
+    <div style='text-align: center; padding: 6rem 0 4rem 0; font-family: monospace; font-size: 0.7rem; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 6rem;'>
+        <p style='color: rgba(255,255,255,0.3);'>© 2026 V JERNICK SAMUEL. ALL SYSTEMS NOMINAL.</p>
+        <div style='display: flex; justify-content: center; gap: 2rem; margin-top: 2rem;'>
+            <a href='https://www.linkedin.com/in/jernick7' style='color: white; text-decoration: none; opacity: 0.5;'>LINKEDIN</a> 
+            <a href='https://www.instagram.com/jernick7/' style='color: white; text-decoration: none; opacity: 0.5;'>INSTAGRAM</a> 
+            <a href='https://github.com/Jernick7' style='color: white; text-decoration: none; opacity: 0.5;'>GITHUB</a>
+        </div>
     </div>
 """, unsafe_allow_html=True)
+
