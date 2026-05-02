@@ -18,8 +18,17 @@ st.markdown("""
     /* Global Reset & Theme */
     .stApp {
         background-color: #050505;
+        background-image: 
+            radial-gradient(circle at 10% 20%, rgba(0, 255, 136, 0.05) 0%, transparent 40%),
+            radial-gradient(circle at 90% 80%, rgba(0, 255, 136, 0.05) 0%, transparent 40%);
         color: #e0e0e0;
         font-family: 'Inter', sans-serif;
+    }
+
+    /* Neon Green Glow */
+    .highlight {
+        color: #00ff88;
+        text-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
     }
 
     h1, h2, h3 {
@@ -32,21 +41,24 @@ st.markdown("""
     .bento-container {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 1rem;
+        gap: 1.5rem;
         margin-top: 2rem;
     }
 
-    .bento-item {
-        background: rgba(255, 255, 255, 0.03);
+    .bento-item, .bento-card {
+        background: rgba(255, 255, 255, 0.02);
         border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 20px;
-        padding: 1.5rem;
-        transition: all 0.3s ease;
+        border-radius: 24px;
+        padding: 2rem;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     }
 
-    .bento-item:hover {
-        background: rgba(255, 255, 255, 0.05);
-        border-color: rgba(0, 255, 136, 0.3);
+    .bento-item:hover, .bento-card:hover {
+        background: rgba(0, 255, 136, 0.02);
+        border-color: rgba(0, 255, 136, 0.4);
+        transform: translateY(-8px);
+        box-shadow: 0 10px 40px rgba(0, 255, 136, 0.1);
     }
 
     .bento-icon {
@@ -125,46 +137,46 @@ def get_model():
 
 # --- HEADER SECTION ---
 st.markdown(f"""
-    <div style='text-align: center; padding: 4rem 0 2rem 0;'>
-        <p style='font-family: monospace; color: #00ff88; letter-spacing: 0.5em; text-transform: uppercase; font-size: 0.7rem; margin-bottom: 1rem;'>Protocol: Introduction</p>
-        <h1 style='font-size: 4rem; line-height: 1; margin: 0;'>About <br><span class='highlight' style='font-size: 5rem;'>V Jernick Samuel</span></h1>
-    </div>
+<div style='text-align: center; padding: 4rem 0 2rem 0;'>
+<p style='font-family: monospace; color: #00ff88; letter-spacing: 0.5em; text-transform: uppercase; font-size: 0.7rem; margin-bottom: 1rem;'>Protocol: Introduction</p>
+<h1 style='font-size: 4rem; line-height: 1; margin: 0;'>About <br><span class='highlight' style='font-size: 5rem;'>V Jernick Samuel</span></h1>
+</div>
 """, unsafe_allow_html=True)
 
 # --- SECTION 1: BENTO ABOUT ME ---
 st.markdown(f"""
-    <div style='max-width: 800px; margin: 0 auto;'>
-        <p style='font-size: 1.2rem; line-height: 1.6; color: rgba(255,255,255,0.8); margin-bottom: 2rem;'>
-            I am an 18-year-old innovator from <span style="color: white; font-weight: 600;">India</span>. 
-            My journey exists at the high-stakes intersection of <span class="highlight">electronics, space, and defense</span>. 
-            I am deeply immersed in the world of VLSI, semiconductors, and high-power rocketry.
-        </p>
-        
-        <div class="bento-container">
-            <div class="bento-item">
-                <div class="bento-icon">/_</div>
-                <div class="bento-title">Codebase</div>
-                <div class="bento-desc">Python, C++, Verilog</div>
-            </div>
-            <div class="bento-item">
-                <div class="bento-icon">🚀</div>
-                <div class="bento-title">Aerospace</div>
-                <div class="bento-desc">High-Power Rocketry & Drones</div>
-            </div>
-            <div class="bento-item">
-                <div class="bento-icon">📺</div>
-                <div class="bento-title">Entertainment</div>
-                <div class="bento-desc">Stranger Things, 3 Body Problem</div>
-            </div>
-            <div class="bento-item">
-                <div class="bento-icon">🏎️</div>
-                <div class="bento-title">Passions</div>
-                <div class="bento-desc">Formula 1, Football, Physics</div>
-            </div>
-        </div>
-        
-        <p class="soundtrack-label">CURRENT SOUNDTRACK</p>
-    </div>
+<div style='max-width: 800px; margin: 0 auto;'>
+<p style='font-size: 1.2rem; line-height: 1.6; color: rgba(255,255,255,0.8); margin-bottom: 2rem;'>
+I am an 18-year-old innovator from <span style="color: white; font-weight: 600;">India</span>. 
+My journey exists at the high-stakes intersection of <span class="highlight">electronics, space, and defense</span>. 
+I am deeply immersed in the world of VLSI, semiconductors, and high-power rocketry.
+</p>
+
+<div class="bento-container">
+<div class="bento-item">
+<div class="bento-icon">/_</div>
+<div class="bento-title">Codebase</div>
+<div class="bento-desc">Python, C++, Verilog</div>
+</div>
+<div class="bento-item">
+<div class="bento-icon">🚀</div>
+<div class="bento-title">Aerospace</div>
+<div class="bento-desc">High-Power Rocketry & Drones</div>
+</div>
+<div class="bento-item">
+<div class="bento-icon">📺</div>
+<div class="bento-title">Entertainment</div>
+<div class="bento-desc">Stranger Things, 3 Body Problem</div>
+</div>
+<div class="bento-item">
+<div class="bento-icon">🏎️</div>
+<div class="bento-title">Passions</div>
+<div class="bento-desc">Formula 1, Football, Physics</div>
+</div>
+</div>
+
+<p class="soundtrack-label">CURRENT SOUNDTRACK</p>
+</div>
 """, unsafe_allow_html=True)
 
 components.html("""
@@ -215,8 +227,8 @@ if prompt := st.chat_input("Query local history or projects..."):
 st.markdown("<hr>", unsafe_allow_html=True)
 st.markdown("""
 <div style='text-align: center; margin-bottom: 3rem;'>
-    <p class="terminal-header">IDENTITY LOG</p>
-    <h2>Leave a <span class='highlight'>Trace</span></h2>
+<p class="terminal-header">IDENTITY LOG</p>
+<h2>Leave a <span class='highlight'>Trace</span></h2>
 </div>
 """, unsafe_allow_html=True)
 
@@ -242,28 +254,28 @@ st.markdown("<h2 style='text-align: center; margin-top: 0.5rem;'>Key <span class
 pcol1, pcol2, pcol3 = st.columns(3)
 with pcol1:
     st.markdown("""
-    <div class="bento-card">
-        <p style="font-size: 0.7rem; color: #00ff88; font-family: monospace;">01. LITERARY</p>
-        <p style="font-weight: 700; font-size: 1.1rem;">Edith Proj</p>
-        <p style="font-size: 0.8rem; opacity: 0.6;">The Realm That Should Not Exist.</p>
-    </div>
-    """, unsafe_allow_html=True)
+<div class="bento-card">
+<p style="font-size: 0.7rem; color: #00ff88; font-family: monospace;">01. LITERARY</p>
+<p style="font-weight: 700; font-size: 1.1rem;">Edith Proj</p>
+<p style="font-size: 0.8rem; opacity: 0.6;">The Realm That Should Not Exist.</p>
+</div>
+""", unsafe_allow_html=True)
 with pcol2:
     st.markdown("""
-    <div class="bento-card">
-        <p style="font-size: 0.7rem; color: #00ff88; font-family: monospace;">02. VENTURE</p>
-        <p style="font-weight: 700; font-size: 1.1rem;">Money El</p>
-        <p style="font-size: 0.8rem; opacity: 0.6;">3D-Printing business architecture.</p>
-    </div>
-    """, unsafe_allow_html=True)
+<div class="bento-card">
+<p style="font-size: 0.7rem; color: #00ff88; font-family: monospace;">02. VENTURE</p>
+<p style="font-weight: 700; font-size: 1.1rem;">Money El</p>
+<p style="font-size: 0.8rem; opacity: 0.6;">3D-Printing business architecture.</p>
+</div>
+""", unsafe_allow_html=True)
 with pcol3:
     st.markdown("""
-    <div class="bento-card">
-        <p style="font-size: 0.7rem; color: #00ff88; font-family: monospace;">03. SYSTEMS</p>
-        <p style="font-weight: 700; font-size: 1.1rem;">Chore App</p>
-        <p style="font-size: 0.8rem; opacity: 0.6;">Streamlit-based ops tracker.</p>
-    </div>
-    """, unsafe_allow_html=True)
+<div class="bento-card">
+<p style="font-size: 0.7rem; color: #00ff88; font-family: monospace;">03. SYSTEMS</p>
+<p style="font-weight: 700; font-size: 1.1rem;">Chore App</p>
+<p style="font-size: 0.8rem; opacity: 0.6;">Streamlit-based ops tracker.</p>
+</div>
+""", unsafe_allow_html=True)
 
 # --- FOOTER ---
 st.markdown(f"""
