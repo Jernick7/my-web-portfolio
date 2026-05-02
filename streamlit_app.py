@@ -22,131 +22,83 @@ st.markdown("""
         font-family: 'Inter', sans-serif;
     }
 
-    [data-testid="stHeader"] {
-        background: rgba(5, 5, 5, 0.8);
-        backdrop-filter: blur(10px);
-    }
-
     h1, h2, h3 {
         font-family: 'Space Grotesk', sans-serif !important;
-        letter-spacing: -0.04em !important;
-        color: white;
-    }
-
-    /* Neon Green Glow */
-    .highlight {
-        color: #00ff88;
-        text-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+        letter-spacing: -0.05em !important;
+        font-weight: 700 !important;
     }
 
     /* Bento Grid Elements */
-    .bento-card {
-        background: rgba(255, 255, 255, 0.02);
+    .bento-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+
+    .bento-item {
+        background: rgba(255, 255, 255, 0.03);
         border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 24px;
-        padding: 2rem;
-        height: 100%;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
+        border-radius: 20px;
+        padding: 1.5rem;
+        transition: all 0.3s ease;
     }
 
-    .bento-card:hover {
-        border-color: rgba(0, 255, 136, 0.5);
-        background: rgba(0, 255, 136, 0.02);
-        transform: translateY(-5px);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    .bento-item:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(0, 255, 136, 0.3);
     }
 
-    .tag-container {
-        display: flex;
-        gap: 0.5rem;
-        flex-wrap: wrap;
-        margin-top: 1rem;
-    }
-
-    .tag {
-        padding: 4px 12px;
-        background: rgba(0, 255, 136, 0.1);
-        border: 1px solid rgba(0, 255, 136, 0.2);
+    .bento-icon {
         color: #00ff88;
-        font-family: monospace;
-        font-size: 0.7rem;
-        border-radius: 100px;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-
-    /* Chat Styling - Sleeker */
-    .stChatMessage {
-        background: rgba(255, 255, 255, 0.03) !important;
-        border: 1px solid rgba(255, 255, 255, 0.05) !important;
-        border-radius: 20px !important;
-        margin-bottom: 1rem !important;
-    }
-
-    /* Intelligence Terminal Form */
-    .terminal-header {
-        font-family: monospace;
-        color: #00ff88;
-        font-size: 0.8rem;
+        font-size: 1.2rem;
         margin-bottom: 0.5rem;
-        opacity: 0.8;
     }
 
+    .bento-title {
+        font-weight: 600;
+        font-size: 1rem;
+        margin-bottom: 0.2rem;
+        color: white;
+    }
+
+    .bento-desc {
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* Intelligence Terminal - border-bottom inputs */
     .stTextInput input, .stTextArea textarea {
-        background-color: rgba(255, 255, 255, 0.02) !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        background-color: transparent !important;
+        border: none !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 0 !important;
         color: white !important;
-        border-radius: 16px !important;
-        padding: 1rem !important;
-        font-size: 1rem !important;
+        padding: 1rem 0 !important;
+        font-size: 1.2rem !important;
     }
 
     .stTextInput input:focus, .stTextArea textarea:focus {
-        border-color: #00ff88 !important;
-        box-shadow: 0 0 10px rgba(0, 255, 136, 0.2) !important;
+        border-bottom: 1px solid #00ff88 !important;
+        box-shadow: none !important;
     }
 
-    /* Submit Button - NVIDIA Style */
-    .stButton button {
-        background: linear-gradient(135deg, #00ff88 0%, #00bc6e 100%) !important;
-        color: #000 !important;
-        border: none !important;
-        padding: 1rem 2rem !important;
-        border-radius: 16px !important;
-        font-weight: 700 !important;
-        font-family: 'Space Grotesk', sans-serif !important;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        transition: all 0.3s ease !important;
-        width: 100% !important;
+    label {
+        font-family: monospace !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.2em !important;
+        font-size: 0.7rem !important;
+        color: rgba(255, 255, 255, 0.4) !important;
     }
 
-    .stButton button:hover {
-        transform: scale(1.02);
-        box-shadow: 0 0 25px rgba(0, 255, 136, 0.5);
-    }
-
-    /* Sidebar / Navigation (if used) */
-    .css-1d391kg {
-        background-color: #050505;
-    }
-
-    /* Spotify Wrapper */
-    .spotify-box {
-        border-left: 2px solid #00ff88;
-        background: rgba(0, 255, 136, 0.02);
-        padding: 1rem;
-        border-radius: 0 12px 12px 0;
-    }
-
-    hr {
-        border: none;
-        height: 1px;
-        background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent);
-        margin: 4rem 0;
+    /* Sound Label */
+    .soundtrack-label {
+        font-family: monospace;
+        font-size: 0.6rem;
+        color: rgba(255, 255, 255, 0.3);
+        letter-spacing: 0.1em;
+        margin-top: 2rem;
+        margin-bottom: 0.5rem;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -180,45 +132,41 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # --- SECTION 1: BENTO ABOUT ME ---
-st.markdown("<br>", unsafe_allow_html=True)
-col1, col2 = st.columns([1.5, 1])
-
-with col1:
-    st.markdown("""
-    <div class="bento-card">
-        <h3 style="margin-top: 0;">Visionary Core</h3>
-        <p style="font-size: 1.1rem; line-height: 1.6; color: rgba(255,255,255,0.7); margin-bottom: 2rem;">
-            Innovator based in <span style="color: white; font-weight: 600;">India</span>. 
-            Exploring the limits of <span class="highlight">silicon and space</span>. 
-            Focused on high-power rocketry and semiconductor architecture.
+st.markdown(f"""
+    <div style='max-width: 800px; margin: 0 auto;'>
+        <p style='font-size: 1.2rem; line-height: 1.6; color: rgba(255,255,255,0.8); margin-bottom: 2rem;'>
+            I am an 18-year-old innovator from <span style="color: white; font-weight: 600;">India</span>. 
+            My journey exists at the high-stakes intersection of <span class="highlight">electronics, space, and defense</span>. 
+            I am deeply immersed in the world of VLSI, semiconductors, and high-power rocketry.
         </p>
-        <div class="tag-container">
-            <span class="tag">VLSI</span>
-            <span class="tag">PCMB</span>
-            <span class="tag">Semiconductors</span>
-            <span class="tag">Defense Tech</span>
+        
+        <div class="bento-container">
+            <div class="bento-item">
+                <div class="bento-icon">/_</div>
+                <div class="bento-title">Codebase</div>
+                <div class="bento-desc">Python, C++, Verilog</div>
+            </div>
+            <div class="bento-item">
+                <div class="bento-icon">🚀</div>
+                <div class="bento-title">Aerospace</div>
+                <div class="bento-desc">High-Power Rocketry & Drones</div>
+            </div>
+            <div class="bento-item">
+                <div class="bento-icon">📺</div>
+                <div class="bento-title">Entertainment</div>
+                <div class="bento-desc">Stranger Things, 3 Body Problem</div>
+            </div>
+            <div class="bento-item">
+                <div class="bento-icon">🏎️</div>
+                <div class="bento-title">Passions</div>
+                <div class="bento-desc">Formula 1, Football, Physics</div>
+            </div>
         </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-with col2:
-    st.markdown("""
-    <div class="bento-card" style="text-align: center;">
-        <p style="font-family: monospace; font-size: 0.7rem; color: #00ff88; margin-bottom: 0.5rem;">PRIMARY OPS</p>
-        <h2 style="margin: 0; font-size: 3rem;">ISC</h2>
-        <p style="font-family: monospace; font-size: 0.8rem; opacity: 0.5;">Class 12 Architecture</p>
-        <div style="height: 1px; width: 40%; background: #00ff88; margin: 1rem auto; opacity: 0.3;"></div>
-        <p style="font-size: 0.9rem; opacity: 0.8;">Python | C++ | Verilog</p>
-    </div>
-    """, unsafe_allow_html=True)
-
-st.markdown("<br>", unsafe_allow_html=True)
-# Audio Section
-st.markdown("""
-    <div class="spotify-box">
-        <p style="font-family: monospace; font-size: 0.7rem; color: #00ff88; margin-bottom: 0.5rem; letter-spacing: 2px;">SECURE AUDIO LINK / LIVE</p>
+        
+        <p class="soundtrack-label">CURRENT SOUNDTRACK</p>
     </div>
 """, unsafe_allow_html=True)
+
 components.html("""
     <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/3dA8m5G6o4cppV7Cj4BZAH?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
 """, height=160)
@@ -267,30 +215,24 @@ if prompt := st.chat_input("Query local history or projects..."):
 st.markdown("<hr>", unsafe_allow_html=True)
 st.markdown("""
 <div style='text-align: center; margin-bottom: 3rem;'>
-    <p class="terminal-header">IDENTITY LOG V2.0</p>
+    <p class="terminal-header">IDENTITY LOG</p>
     <h2>Leave a <span class='highlight'>Trace</span></h2>
 </div>
 """, unsafe_allow_html=True)
 
-# Custom Bento Form
-col_form1, col_form2 = st.columns([1, 1])
-
 with st.form("terminal_intel", clear_on_submit=True):
-    with col_form1:
-        v_name = st.text_input("IDENTIFIER NAME", placeholder="User-77")
-    with col_form2:
-        v_email = st.text_input("REPLY ADDRESS", placeholder="agent@network.com")
-        
-    v_content = st.text_area("INTEL / FEEDBACK", placeholder="Transmission begins...")
+    v_name = st.text_input("YOUR NAME", placeholder="Agent 001")
+    v_email = st.text_input("YOUR EMAIL (FOR REPLIES)", placeholder="agent@intel.com")
+    v_content = st.text_area("WHAT DO YOU KNOW ABOUT ME? / FEEDBACK", placeholder="I heard you're building Edith...")
     
     st.markdown("<br>", unsafe_allow_html=True)
-    submit_button = st.form_submit_button("SYNC TO NEURAL CORE")
+    submit_button = st.form_submit_button("SUBMIT INTELLIGENCE")
     
     if submit_button:
         if v_name and v_email and v_content:
-            st.success(f"Log entry successful. Connection established, {v_name}.")
+            st.success(f"Transmission received. Intelligence logged for {v_name}.")
         else:
-            st.error("Incomplete packet. Required fields missing.")
+            st.error("Protocol violation. All fields required.")
 
 # --- PROJECTS BENTO (OPTIONAL - GIVING MORE CONTENT) ---
 st.markdown("<hr>", unsafe_allow_html=True)
