@@ -132,37 +132,112 @@ st.markdown("""
     }
 
     /* Chat Styling - Technical Neural Link */
-    .chat-container {
-        max-height: 500px;
-        overflow-y: auto;
-        padding: 1.5rem;
-        background: rgba(0, 0, 0, 0.2);
+    .terminal-container {
+        background: rgba(0, 0, 0, 0.4);
+        border: 1px solid rgba(0, 255, 136, 0.1);
         border-radius: 24px;
-        border: 1px solid rgba(0, 255, 136, 0.05);
-        margin-bottom: 2rem;
+        overflow: hidden;
+        margin: 2rem 0;
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .terminal-header {
+        background: rgba(0, 255, 136, 0.05);
+        border-bottom: 1px solid rgba(0, 255, 136, 0.1);
+        padding: 0.75rem 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .status-indicator {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: monospace;
+        font-size: 0.65rem;
+        color: rgba(0, 255, 136, 0.8);
+        text-transform: uppercase;
+        letter-spacing: 0.1rem;
+    }
+
+    .status-dot {
+        width: 6px;
+        height: 6px;
+        background: #00ff88;
+        border-radius: 50%;
+        box-shadow: 0 0 10px #00ff88;
+        animation: status-pulse 2s infinite;
+    }
+
+    @keyframes status-pulse {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.4; transform: scale(1.2); }
+    }
+
+    .chat-display {
+        max-height: 400px;
+        overflow-y: auto;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
     }
 
     .msg-block {
-        margin-bottom: 1.5rem;
         padding: 1.2rem;
         border-radius: 16px;
         font-size: 0.95rem;
         line-height: 1.6;
         position: relative;
+        max-width: 85%;
     }
 
     .msg-user {
         background: rgba(255, 255, 255, 0.03);
         border-right: 3px solid #00ff88;
-        margin-left: 2rem;
+        align-self: flex-end;
         color: #eef1f5;
+        border-radius: 16px 16px 4px 16px;
     }
 
     .msg-ai {
         background: rgba(0, 255, 136, 0.03);
         border-left: 3px solid #00ff88;
-        margin-right: 2rem;
+        align-self: flex-start;
         color: #00ff88;
+        border-radius: 16px 16px 16px 4px;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 4rem 2rem;
+        color: rgba(255, 255, 255, 0.3);
+    }
+
+    .empty-icon {
+        font-size: 3rem;
+        margin-bottom: 1.5rem;
+        opacity: 0.2;
+    }
+
+    .suggested-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        justify-content: center;
+        margin-top: 1.5rem;
+    }
+
+    .tag {
+        font-family: monospace;
+        font-size: 0.7rem;
+        padding: 0.4rem 0.8rem;
+        background: rgba(0, 255, 136, 0.05);
+        border: 1px solid rgba(0, 255, 136, 0.1);
+        border-radius: 100px;
+        color: #00ff88;
+        opacity: 0.6;
     }
 
     .msg-label {
@@ -183,6 +258,25 @@ st.markdown("""
         color: #ff5050;
         font-family: monospace;
         font-size: 0.8rem;
+    }
+
+    /* Terminal Input Polish */
+    #proxy_terminal {
+        background: rgba(255, 255, 255, 0.02);
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        padding: 2rem;
+    }
+
+    .stTextInput > div > div > input {
+        border-radius: 12px !important;
+        background: rgba(0, 0, 0, 0.3) !important;
+        border: 1px solid rgba(255, 255, 255, 0.05) !important;
+        padding-left: 1.5rem !important;
+    }
+
+    .stTextInput > div > div > input:focus {
+        border-color: #00ff88 !important;
+        box-shadow: 0 0 20px rgba(0, 255, 136, 0.1) !important;
     }
 
     /* Bento Grid Elements - NVIDIA Aesthetic */
@@ -405,61 +499,84 @@ model = get_model()
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Terminal Container
-with st.container():
-    # Render custom messages
-    if not st.session_state.messages:
-        st.markdown("""
-        <div style='text-align: center; color: rgba(0, 255, 136, 0.2); font-family: monospace; font-size: 0.75rem; margin: 5rem 0;'>
-            [SYSTEM_IDLE: AWAITING NEURAL LINK COMMAND]<br>
-            <span style='font-size: 0.6rem; opacity: 0.5;'>TYPE QUERY BELOW AND PRESS EXECUTE</span>
+# Modern Industrial Terminal UI
+st.markdown("""
+<div class="terminal-container">
+    <div class="terminal-header">
+        <div class="status-indicator">
+            <div class="status-dot"></div>
+            GEMINI 1.5 FLASH CONNECTED
         </div>
-        """, unsafe_allow_html=True)
-    else:
-        # Use a div to contain the messages with a fixed height and scroll
-        chat_html = "<div class='chat-container'>"
-        for msg in st.session_state.messages:
-            role_css = "msg-user" if msg["role"] == "user" else "msg-ai"
-            role_label = "COMMAND_ID" if msg["role"] == "user" else "LINK_RESPONSE"
-            chat_html += f"""
-            <div class='msg-block {role_css}'>
-                <span class='msg-label'>{role_label}</span>
-                {msg["content"]}
-            </div>
-            """
-        chat_html += "</div>"
-        st.markdown(chat_html, unsafe_allow_html=True)
+        <div style="font-family: monospace; font-size: 0.6rem; color: rgba(255,255,255,0.2);">SECURE_LINK::V2.0</div>
+    </div>
+""", unsafe_allow_html=True)
 
-    # High-End Single Line Input
-    with st.form("proxy_terminal", clear_on_submit=True):
-        prompt = st.text_input("EXECUTE_QUERY", label_visibility="collapsed", placeholder="Execute command (e.g. 'Show VLSI projects' or 'Who is Jernick?')")
-        
-        # Center the execute button visually within the terminal look
-        b_col1, b_col2, b_col3 = st.columns([1, 2, 1])
-        with b_col2:
-            submit_bot = st.form_submit_button("EXECUTE DATA LINK")
+# Chat Display logic
+if not st.session_state.messages:
+    st.markdown("""
+    <div class="empty-state">
+        <div class="empty-icon">/_</div>
+        <p style="font-weight: 500; color: rgba(255,255,255,0.6);">Initiate secure link to learn about my projects</p>
+        <div class="suggested-tags">
+            <span class="tag">VLSI Design</span>
+            <span class="tag">Money El</span>
+            <span class="tag">Aerospace Strategy</span>
+            <span class="tag">Edith Proj</span>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+else:
+    # Use a div to contain the messages with a fixed height and scroll
+    chat_html = "<div class='chat-display'>"
+    for msg in st.session_state.messages:
+        role_css = "msg-user" if msg["role"] == "user" else "msg-ai"
+        role_label = "USER_CMD" if msg["role"] == "user" else "PROXY_RES"
+        content = msg["content"]
+        # Wrap error blocks correctly
+        if "[SYSTEM_CRITICAL]" in content or "[LINK_ERROR]" in content:
+            display_content = f"<div class='error-gate'>{content}</div>"
+        else:
+            display_content = content
+            
+        chat_html += f"""
+        <div class='msg-block {role_css}'>
+            <span class='msg-label'>{role_label}</span>
+            {display_content}
+        </div>
+        """
+    chat_html += "</div>"
+    st.markdown(chat_html, unsafe_allow_html=True)
 
-    if submit_bot and prompt:
-        st.session_state.messages.append({"role": "user", "content": prompt})
-        
-        if model:
-            try:
-                history = [{"role": "user" if m["role"] == "user" else "model", "parts": [m["content"]]} for m in st.session_state.messages]
-                chat = model.start_chat(history=history[:-1])
-                response = chat.send_message(prompt)
-                st.session_state.messages.append({"role": "assistant", "content": response.text})
-            except Exception as e:
-                # Capture the real error to help user fix their API key
-                error_msg = str(e)
-                if "API_KEY_INVALID" in error_msg or "403" in error_msg:
-                    friendly_error = "[SYSTEM_CRITICAL]: The API Key provided is invalid. Please reset it in your Streamlit Cloud secrets."
-                elif "quota" in error_msg.lower():
-                    friendly_error = "[SYSTEM_THROTTLED]: Neural bandwidth exceeded. Try again in 60 seconds."
-                else:
-                    friendly_error = f"[LINK_ERROR]: {error_msg if len(error_msg) < 100 else 'Handshake failed.'}"
-                
-                st.session_state.messages.append({"role": "assistant", "content": f"<div class='error-gate'>{friendly_error}</div>"})
-            st.rerun()
+st.markdown("</div>", unsafe_allow_html=True)
+
+# Input area
+with st.form("proxy_terminal", clear_on_submit=True):
+    # Container specifically for input to keep it visually separate but cohesive
+    prompt = st.text_input("EXECUTE_QUERY", label_visibility="collapsed", placeholder="Ask about VLSI, 3D printing, or Jernick's projects...")
+    
+    b_col1, b_col2, b_col3 = st.columns([1, 2, 1])
+    with b_col2:
+        submit_bot = st.form_submit_button("EXECUTE DATA LINK")
+
+if submit_bot and prompt:
+    st.session_state.messages.append({"role": "user", "content": prompt})
+    
+    if model:
+        try:
+            history = [{"role": "user" if m["role"] == "user" else "model", "parts": [m["content"]]} for m in st.session_state.messages]
+            chat = model.start_chat(history=history[:-1])
+            response = chat.send_message(prompt)
+            st.session_state.messages.append({"role": "assistant", "content": response.text})
+        except Exception as e:
+            error_msg = str(e)
+            if "API_KEY_INVALID" in error_msg or "403" in error_msg:
+                friendly_error = "[SYSTEM_CRITICAL]: Invalid API Key. Reset in secrets."
+            elif "quota" in error_msg.lower():
+                friendly_error = "[SYSTEM_THROTTLED]: Bandwidth exceeded. Wait 60s."
+            else:
+                friendly_error = "[LINK_ERROR]: Connection timeout."
+            st.session_state.messages.append({"role": "assistant", "content": f"<div class='error-gate'>{friendly_error}</div>"})
+        st.rerun()
 
 # --- SECTION 3: INTELLIGENCE TERMINAL ---
 st.markdown("<hr>", unsafe_allow_html=True)
