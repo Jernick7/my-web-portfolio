@@ -497,7 +497,7 @@ def get_model():
 # --- HEADER SECTION ---
 st.markdown(f"""
 <div style='text-align: center; padding: 6rem 0 4rem 0;'>
-<p style='font-family: monospace; color: #00ff88; letter-spacing: 0.6em; text-transform: uppercase; font-size: 0.75rem; margin-bottom: 1.5rem; opacity: 0.8;'>SYSTEM: IDENTITY_LOG_V2</p>
+<p style='font-family: monospace; color: #00ff88; letter-spacing: 0.6em; text-transform: uppercase; font-size: 0.75rem; margin-bottom: 1.5rem; opacity: 0.8;'>JERNICK'S REALM</p>
 <h1 style='font-size: 5.5rem; line-height: 0.9; margin: 0; font-weight: 800;'>V Jernick <br><span class='highlight' style='font-size: 7.5rem;'>Samuel</span></h1>
 </div>
 """, unsafe_allow_html=True)
@@ -620,7 +620,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 with st.form("terminal_intel", clear_on_submit=True):
-    v_name = st.text_input("YOUR NAME", placeholder="Agent 001")
+    v_name = st.text_input("YOUR NAME", placeholder="Agent el 001")
     v_email = st.text_input("YOUR EMAIL (FOR REPLIES)", placeholder="agent@intel.com")
     v_content = st.text_area("WHAT DO YOU KNOW ABOUT ME? / FEEDBACK", placeholder="I heard you're building Edith...")
     
