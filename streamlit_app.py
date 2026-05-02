@@ -261,22 +261,70 @@ st.markdown("""
     }
 
     /* Terminal Input Polish */
-    #proxy_terminal {
-        background: rgba(255, 255, 255, 0.02);
-        border-top: 1px solid rgba(255, 255, 255, 0.05);
-        padding: 2rem;
+    #neural_input_form {
+        background: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+    }
+
+    div[data-testid="stForm"] > div {
+        border: none !important;
+        background: transparent !important;
     }
 
     .stTextInput > div > div > input {
         border-radius: 12px !important;
-        background: rgba(0, 0, 0, 0.3) !important;
+        background: rgba(0, 0, 0, 0.4) !important;
         border: 1px solid rgba(255, 255, 255, 0.05) !important;
-        padding-left: 1.5rem !important;
+        padding: 1.5rem !important;
+        color: #00ff88 !important;
+        font-family: 'Space Grotesk', sans-serif !important;
+        font-size: 1.1rem !important;
+    }
+
+    /* Target the Execute Button specifically */
+    div[data-testid="stFormSubmitButton"] button {
+        background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%) !important;
+        color: #000000 !important;
+        border: none !important;
+        border-radius: 12px !important;
+        font-weight: 800 !important;
+        letter-spacing: 0.1em !important;
+        text-transform: uppercase !important;
+        height: 62px !important;
+        width: 100% !important;
+        margin: 0 !important;
+        box-shadow: 0 0 20px rgba(0, 255, 136, 0.2) !important;
+        transition: all 0.3s ease !important;
+    }
+
+    div[data-testid="stFormSubmitButton"] button:hover {
+        box-shadow: 0 0 40px rgba(0, 255, 136, 0.6) !important;
+        transform: translateY(-2px) !important;
     }
 
     .stTextInput > div > div > input:focus {
         border-color: #00ff88 !important;
-        box-shadow: 0 0 20px rgba(0, 255, 136, 0.1) !important;
+        box-shadow: 0 0 30px rgba(0, 255, 136, 0.4) !important;
+        background: rgba(0, 255, 136, 0.05) !important;
+    }
+
+    /* Glow Input Module */
+    .glow-input-container {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(0, 255, 136, 0.1);
+        border-radius: 20px;
+        padding: 0.5rem;
+        margin: 2rem auto 4rem auto;
+        max-width: 800px;
+        box-shadow: 0 0 40px rgba(0, 255, 136, 0.03);
+        transition: all 0.5s ease;
+    }
+
+    .glow-input-container:focus-within {
+        border-color: #00ff88;
+        box-shadow: 0 0 50px rgba(0, 255, 136, 0.15);
+        background: rgba(0, 255, 136, 0.02);
     }
 
     /* Bento Grid Elements - NVIDIA Aesthetic */
@@ -439,7 +487,8 @@ def get_model():
         """, unsafe_allow_html=True)
         return None
     genai.configure(api_key=api_key)
-    return genai.GenerativeModel('gemini-1.5-flash', system_instruction=SYSTEM_INSTRUCTIONS)
+    # Using explicit models/ prefix to resolve some environment resolution issues
+    return genai.GenerativeModel('models/gemini-1.5-flash', system_instruction=SYSTEM_INSTRUCTIONS)
 
 # --- HEADER SECTION ---
 st.markdown(f"""
@@ -499,6 +548,39 @@ model = get_model()
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
+# Glowing Input Field - Relocated to Header Area
+with st.container():
+    st.markdown('<div class="glow-input-container">', unsafe_allow_html=True)
+    with st.form("neural_input_form", clear_on_submit=True):
+        col_in, col_btn = st.columns([4, 1])
+        with col_in:
+            prompt = st.text_input("QUERY", label_visibility="collapsed", placeholder="Execute command (e.g. 'Show me your VLSI plans')...")
+        with col_btn:
+            # Modern Industrial Button
+            submit_bot = st.form_submit_button("EXECUTE")
+    st.markdown('</div>', unsafe_allow_html=True)
+
+if submit_bot and prompt:
+    st.session_state.messages.append({"role": "user", "content": prompt})
+    
+    if model:
+        try:
+            history = [{"role": "user" if m["role"] == "user" else "model", "parts": [m["content"]]} for m in st.session_state.messages]
+            chat = model.start_chat(history=history[:-1])
+            response = chat.send_message(prompt)
+            st.session_state.messages.append({"role": "assistant", "content": response.text})
+        except Exception as e:
+            error_msg = str(e)
+            if "API_KEY_INVALID" in error_msg or "403" in error_msg:
+                friendly_error = "[SYSTEM_CRITICAL]: Invalid API Key. Please verify your Streamlit Secrets."
+            elif "quota" in error_msg.lower():
+                friendly_error = "[SYSTEM_THROTTLED]: Bandwidth exceeded. Please wait 60s."
+            else:
+                friendly_error = f"[LINK_ERROR]: Handshake failed. ({error_msg[:50]})"
+            
+            st.session_state.messages.insert(1, {"role": "assistant", "content": friendly_error})
+        st.rerun()
+
 # Modern Industrial Terminal UI
 st.markdown("""
 <div class="terminal-container">
@@ -526,13 +608,11 @@ if not st.session_state.messages:
     </div>
     """, unsafe_allow_html=True)
 else:
-    # Use a div to contain the messages with a fixed height and scroll
     for msg in st.session_state.messages:
         role_css = "msg-user" if msg["role"] == "user" else "msg-ai"
         role_label = "USER_CMD" if msg["role"] == "user" else "PROXY_RES"
         content = msg["content"]
         
-        # Check if content should be rendered as raw HTML or markdown
         with st.chat_message(msg["role"]):
             if "[SYSTEM_CRITICAL]" in content or "[LINK_ERROR]" in content:
                 st.markdown(f"<div class='error-gate'>{content}</div>", unsafe_allow_html=True)
@@ -540,37 +620,6 @@ else:
                 st.markdown(content)
 
 st.markdown("</div>", unsafe_allow_html=True)
-
-# Input area - Modern Bottom Bar
-if prompt := st.chat_input("Ask about Jernick's projects, goals, or VLSI..."):
-    st.session_state.messages.append({"role": "user", "content": prompt})
-    
-    if model:
-        try:
-            # Re-render user message immediately
-            with st.chat_message("user"):
-                st.markdown(prompt)
-                
-            with st.chat_message("assistant"):
-                with st.spinner("Decoding Neural Link..."):
-                    history = [{"role": "user" if m["role"] == "user" else "model", "parts": [m["content"]]} for m in st.session_state.messages]
-                    chat = model.start_chat(history=history[:-1])
-                    response = chat.send_message(prompt)
-                    st.markdown(response.text)
-                    st.session_state.messages.append({"role": "assistant", "content": response.text})
-        except Exception as e:
-            error_msg = str(e)
-            if "API_KEY_INVALID" in error_msg or "403" in error_msg:
-                friendly_error = "[SYSTEM_CRITICAL]: Invalid API Key. Please verify your Streamlit Secrets."
-            elif "quota" in error_msg.lower():
-                friendly_error = "[SYSTEM_THROTTLED]: Bandwidth exceeded. Please wait 60s."
-            else:
-                friendly_error = f"[LINK_ERROR]: Handshake failed. ({error_msg[:50]})"
-            
-            st.session_state.messages.append({"role": "assistant", "content": friendly_error})
-            st.rerun()
-    else:
-        st.error("Neural Interface offline. Configure GEMINI_API_KEY to proceed.")
 
 # --- SECTION 3: INTELLIGENCE TERMINAL ---
 st.markdown("<hr>", unsafe_allow_html=True)
