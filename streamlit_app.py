@@ -631,7 +631,7 @@ with st.form("terminal_intel", clear_on_submit=True):
         if v_name and v_email and v_content:
             st.success(f"Transmission received. Intelligence logged for {v_name}.")
         else:
-            st.error("Protocol violation. All fields required.")
+            st.error("Jernick says: Protocol violation. All fields required.")
 
 # --- PROJECTS BENTO (OPTIONAL - GIVING MORE CONTENT) ---
 st.markdown("<hr>", unsafe_allow_html=True)
