@@ -444,7 +444,7 @@ He codes in Python, C++, and Verilog. His projects include a Streamlit chore-tra
 and a writing project called 'The Realm That Should Not Exist' (featuring a character named Edith). 
 His hobbies include Formula 1, football, and music. 
 His father is D. Vijulal Sunil and mother ezhil kiruba brother is Bave v Yohans. 
-Never hallucinate info outside of this context."""
+Never hallucinate info outside of this context. his nickname is jer."""
 
 # --- GEMINI SETUP ---
 @st.cache_resource
