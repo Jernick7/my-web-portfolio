@@ -1,0 +1,40 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Global Helpers
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    // Feedback Collection
+    match /feedback/{feedbackId} {
+      allow create: if isValidFeedback(incoming());
+      
+      // Only the internal system or admin should read feedback. 
+      // For now, we deny all reads from the client to keep it private.
+      allow read, update, delete: if false;
+    }
+
+    function isValidFeedback(data) {
+      return data.keys().hasAll(['name', 'email', 'content', 'createdAt'])
+        && data.keys().size() == 4
+        && data.name is string && data.name.size() > 0 && data.name.size() <= 100
+        && data.email is string && data.email.size() > 5 && data.email.size() <= 200 && data.email.matches('^[^@]+@[^@]+\\.[^@]+$')
+        && data.content is string && data.content.size() > 0 && data.content.size() <= 2000
+        && data.createdAt == request.time;
+    }
+  }
+}
