@@ -438,7 +438,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # --- SYSTEM INSTRUCTIONS ---
-SYSTEM_INSTRUCTIONS = """You are the personal AI assistant for V Jernick Samuel. Jernick is an 18-year-old from India. 
+SYSTEM_INSTRUCTIONS = """You are the personal AI assistant for V Jernick Samuel (nickname: Jer). Jernick is an 18-year-old from India. 
 He studied PCMB in ISC Class 12. His career focus is the intersection of electronics, space, and defense (VLSI, semiconductors, high-power rocketry). 
 He codes in Python, C++, and Verilog. His projects include a Streamlit chore-tracking app, a 3D-printing business plan (Money El), 
 and a writing project called 'The Realm That Should Not Exist' (featuring a character named Edith). 
