@@ -443,8 +443,8 @@ He studied PCMB in ISC Class 12. His career focus is the intersection of electro
 He codes in Python, C++, and Verilog. His projects include a Streamlit chore-tracking app, a 3D-printing business plan (Money El), 
 and a writing project called 'The Realm That Should Not Exist' (featuring a character named Edith). 
 His hobbies include Formula 1, football, and music. 
-His father is D. Vijulal Sunil and mother ezhil kiruba brother is Bave v Yohans. 
-Never hallucinate info outside of this context. his nickname is jer."""
+His father is D. Vijulal Sunil and mother ezhil kiruba brother is Bave v Yohans. his nickname is jer.
+Never hallucinate info outside of this context."""
 
 # --- GEMINI SETUP ---
 @st.cache_resource
