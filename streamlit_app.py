@@ -543,19 +543,27 @@ else:
 
 st.markdown("</div>", unsafe_allow_html=True)
 
-if prompt := st.chat_input("Ask about VLSI or my 3D printing business..."):
+# --- INLINE CHAT INPUT FORM ---
+st.markdown('<div class="glow-input-container">', unsafe_allow_html=True)
+with st.form("chat_form", clear_on_submit=True):
+    col1, col2 = st.columns([5, 1])
+    with col1:
+        prompt = st.text_input("msg", placeholder="Ask about VLSI or my 3D printing business...", label_visibility="collapsed")
+    with col2:
+        submit_chat = st.form_submit_button("SEND")
+st.markdown('</div>', unsafe_allow_html=True)
+
+# --- CHAT LOGIC ---
+if submit_chat and prompt:
+    # 1. Save user message
     st.session_state.messages.append({"role": "user", "content": prompt})
     
-    with st.chat_message("user"):
-        st.markdown(prompt)
-
+    # 2. Get AI Response
     if model:
         try:
             history = [{"role": "user" if m["role"] == "user" else "model", "parts": [m["content"]]} for m in st.session_state.messages[:-1]]
             chat = model.start_chat(history=history)
             response = chat.send_message(prompt)
-            with st.chat_message("assistant"):
-                st.markdown(response.text)
             st.session_state.messages.append({"role": "assistant", "content": response.text})
         except Exception as e:
             error_msg = str(e)
@@ -565,10 +573,10 @@ if prompt := st.chat_input("Ask about VLSI or my 3D printing business..."):
                 friendly_error = "Bandwidth exceeded. Please wait 60s."
             else:
                 friendly_error = f"Handshake failed. ({error_msg[:50]})"
-            
-            with st.chat_message("assistant"):
-                st.error(friendly_error)
             st.session_state.messages.append({"role": "assistant", "content": friendly_error})
+            
+    # 3. Reload the UI
+    st.rerun()
 
 # --- SECTION 3: INTELLIGENCE TERMINAL ---
 st.markdown("<hr>", unsafe_allow_html=True)
