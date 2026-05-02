@@ -516,7 +516,7 @@ if not st.session_state.messages:
     st.markdown("""
     <div class="empty-state">
         <div class="empty-icon">/_</div>
-        <p style="font-weight: 500; color: rgba(255,255,255,0.6);">Initiate secure link to learn about my projects</p>
+        <p style="font-weight: 500; color: rgba(255,255,255,0.6);">Initiate secure link to learn about Jernick</p>
         <div class="suggested-tags">
             <span class="tag">VLSI Design</span>
             <span class="tag">Money El</span>
@@ -527,56 +527,50 @@ if not st.session_state.messages:
     """, unsafe_allow_html=True)
 else:
     # Use a div to contain the messages with a fixed height and scroll
-    chat_html = "<div class='chat-display'>"
     for msg in st.session_state.messages:
         role_css = "msg-user" if msg["role"] == "user" else "msg-ai"
         role_label = "USER_CMD" if msg["role"] == "user" else "PROXY_RES"
         content = msg["content"]
-        # Wrap error blocks correctly
-        if "[SYSTEM_CRITICAL]" in content or "[LINK_ERROR]" in content:
-            display_content = f"<div class='error-gate'>{content}</div>"
-        else:
-            display_content = content
-            
-        chat_html += f"""
-        <div class='msg-block {role_css}'>
-            <span class='msg-label'>{role_label}</span>
-            {display_content}
-        </div>
-        """
-    chat_html += "</div>"
-    st.markdown(chat_html, unsafe_allow_html=True)
+        
+        # Check if content should be rendered as raw HTML or markdown
+        with st.chat_message(msg["role"]):
+            if "[SYSTEM_CRITICAL]" in content or "[LINK_ERROR]" in content:
+                st.markdown(f"<div class='error-gate'>{content}</div>", unsafe_allow_html=True)
+            else:
+                st.markdown(content)
 
 st.markdown("</div>", unsafe_allow_html=True)
 
-# Input area
-with st.form("proxy_terminal", clear_on_submit=True):
-    # Container specifically for input to keep it visually separate but cohesive
-    prompt = st.text_input("EXECUTE_QUERY", label_visibility="collapsed", placeholder="Ask about VLSI, 3D printing, or Jernick's projects...")
-    
-    b_col1, b_col2, b_col3 = st.columns([1, 2, 1])
-    with b_col2:
-        submit_bot = st.form_submit_button("EXECUTE DATA LINK")
-
-if submit_bot and prompt:
+# Input area - Modern Bottom Bar
+if prompt := st.chat_input("Ask about Jernick's projects, goals, or VLSI..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
     
     if model:
         try:
-            history = [{"role": "user" if m["role"] == "user" else "model", "parts": [m["content"]]} for m in st.session_state.messages]
-            chat = model.start_chat(history=history[:-1])
-            response = chat.send_message(prompt)
-            st.session_state.messages.append({"role": "assistant", "content": response.text})
+            # Re-render user message immediately
+            with st.chat_message("user"):
+                st.markdown(prompt)
+                
+            with st.chat_message("assistant"):
+                with st.spinner("Decoding Neural Link..."):
+                    history = [{"role": "user" if m["role"] == "user" else "model", "parts": [m["content"]]} for m in st.session_state.messages]
+                    chat = model.start_chat(history=history[:-1])
+                    response = chat.send_message(prompt)
+                    st.markdown(response.text)
+                    st.session_state.messages.append({"role": "assistant", "content": response.text})
         except Exception as e:
             error_msg = str(e)
             if "API_KEY_INVALID" in error_msg or "403" in error_msg:
-                friendly_error = "[SYSTEM_CRITICAL]: Invalid API Key. Reset in secrets."
+                friendly_error = "[SYSTEM_CRITICAL]: Invalid API Key. Please verify your Streamlit Secrets."
             elif "quota" in error_msg.lower():
-                friendly_error = "[SYSTEM_THROTTLED]: Bandwidth exceeded. Wait 60s."
+                friendly_error = "[SYSTEM_THROTTLED]: Bandwidth exceeded. Please wait 60s."
             else:
-                friendly_error = "[LINK_ERROR]: Connection timeout."
-            st.session_state.messages.append({"role": "assistant", "content": f"<div class='error-gate'>{friendly_error}</div>"})
-        st.rerun()
+                friendly_error = f"[LINK_ERROR]: Handshake failed. ({error_msg[:50]})"
+            
+            st.session_state.messages.append({"role": "assistant", "content": friendly_error})
+            st.rerun()
+    else:
+        st.error("Neural Interface offline. Configure GEMINI_API_KEY to proceed.")
 
 # --- SECTION 3: INTELLIGENCE TERMINAL ---
 st.markdown("<hr>", unsafe_allow_html=True)
