@@ -260,71 +260,85 @@ st.markdown("""
         font-size: 0.8rem;
     }
 
-    /* Terminal Input Polish */
+    /* Glow Input Module (AI Studio Premium Match) */
+    .glow-input-container {
+        background: transparent;
+        padding: 0;
+        margin: 2rem auto 4rem auto;
+        max-width: 800px;
+    }
+
     #neural_input_form {
         background: transparent !important;
         border: none !important;
         padding: 0 !important;
     }
-
+    
     div[data-testid="stForm"] > div {
         border: none !important;
         background: transparent !important;
     }
 
+    /* Default inputs */
     .stTextInput > div > div > input {
         border-radius: 12px !important;
-        background: rgba(0, 0, 0, 0.4) !important;
+        background: rgba(255, 255, 255, 0.03) !important;
         border: 1px solid rgba(255, 255, 255, 0.05) !important;
         padding: 1.5rem !important;
-        color: #00ff88 !important;
-        font-family: 'Space Grotesk', sans-serif !important;
-        font-size: 1.1rem !important;
-    }
-
-    /* Target the Execute Button specifically */
-    div[data-testid="stFormSubmitButton"] button {
-        background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%) !important;
-        color: #000000 !important;
-        border: none !important;
-        border-radius: 12px !important;
-        font-weight: 800 !important;
-        letter-spacing: 0.1em !important;
-        text-transform: uppercase !important;
-        height: 62px !important;
-        width: 100% !important;
-        margin: 0 !important;
-        box-shadow: 0 0 20px rgba(0, 255, 136, 0.2) !important;
-        transition: all 0.3s ease !important;
-    }
-
-    div[data-testid="stFormSubmitButton"] button:hover {
-        box-shadow: 0 0 40px rgba(0, 255, 136, 0.6) !important;
-        transform: translateY(-2px) !important;
+        color: white !important;
+        font-size: 1rem !important;
     }
 
     .stTextInput > div > div > input:focus {
         border-color: #00ff88 !important;
-        box-shadow: 0 0 30px rgba(0, 255, 136, 0.4) !important;
-        background: rgba(0, 255, 136, 0.05) !important;
+        box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.5) !important;
     }
 
-    /* Glow Input Module */
-    .glow-input-container {
-        background: rgba(255, 255, 255, 0.02);
-        border: 1px solid rgba(0, 255, 136, 0.1);
-        border-radius: 20px;
-        padding: 0.5rem;
-        margin: 2rem auto 4rem auto;
-        max-width: 800px;
-        box-shadow: 0 0 40px rgba(0, 255, 136, 0.03);
-        transition: all 0.5s ease;
+    /* Proxy Form Input Override */
+    .glow-input-container .stTextInput > div > div > input {
+        background-color: #1e1e20 !important;
+    }
+    
+    .glow-input-container .stTextInput > div > div > input:focus {
+        background-color: #1e1e20 !important;
+        box-shadow: 0 0 0 2px #00ff88 !important; /* bright green box-shadow outline */
     }
 
-    .glow-input-container:focus-within {
-        border-color: #00ff88;
-        box-shadow: 0 0 50px rgba(0, 255, 136, 0.15);
-        background: rgba(0, 255, 136, 0.02);
+    /* Generic Button */
+    div[data-testid="stFormSubmitButton"] button {
+        background: transparent !important;
+        color: #00ff88 !important;
+        border: 1px solid rgba(0, 255, 136, 0.4) !important;
+        border-radius: 12px !important;
+        font-weight: 700 !important;
+        margin: 0 !important;
+        transition: all 0.3s ease !important;
+    }
+
+    div[data-testid="stFormSubmitButton"] button:hover {
+        background: rgba(0, 255, 136, 0.1) !important;
+        box-shadow: 0 0 20px rgba(0, 255, 136, 0.2) !important;
+    }
+
+    /* Proxy Send Button Match */
+    .glow-input-container div[data-testid="stFormSubmitButton"] button {
+        background: #00ff88 !important; /* solid neon green */
+        color: #000000 !important; /* black icon */
+        border: none !important;
+        border-radius: 12px !important;
+        font-weight: 800 !important;
+        height: 62px !important;
+        width: 100% !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem !important;
+        box-shadow: 0 0 15px rgba(0, 255, 136, 0.3) !important;
+    }
+
+    .glow-input-container div[data-testid="stFormSubmitButton"] button:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 5px 25px rgba(0, 255, 136, 0.5) !important;
     }
 
     /* Bento Grid Elements - NVIDIA Aesthetic */
@@ -341,7 +355,7 @@ st.markdown("""
         border: 1px solid rgba(255, 255, 255, 0.05);
         border-radius: 32px;
         padding: 2.5rem;
-        transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+        transition: all 0.3s ease;
         position: relative;
         overflow: hidden;
     }
@@ -349,8 +363,8 @@ st.markdown("""
     .bento-item:hover, .bento-card:hover {
         background: rgba(0, 255, 136, 0.01);
         border-color: rgba(0, 255, 136, 0.4);
-        box-shadow: 0 0 60px rgba(0, 255, 136, 0.1);
-        transform: translateY(-8px);
+        box-shadow: 0px 10px 20px rgba(0, 255, 136, 0.3);
+        transform: translateY(-5px);
     }
 
     .bento-icon {
@@ -374,68 +388,20 @@ st.markdown("""
         line-height: 1.5;
     }
 
-    /* Input Styling - High End */
-    .stTextInput input, .stTextArea textarea {
+    /* Intelligence Terminal Specific Textarea */
+    .stTextArea textarea {
         background-color: rgba(255, 255, 255, 0.03) !important;
-        border: none !important;
-        border-bottom: 2px solid rgba(255, 255, 255, 0.05) !important;
-        border-radius: 8px 8px 0 0 !important;
+        border: 1px solid rgba(255, 255, 255, 0.05) !important;
+        border-radius: 12px !important;
         color: white !important;
-        padding: 2rem 1rem 1rem 1rem !important;
-        font-size: 1.2rem !important;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        padding: 2rem !important;
+        font-size: 1rem !important;
+        transition: all 0.3s ease !important;
     }
 
-    .stTextInput input:focus, .stTextArea textarea:focus {
-        background-color: rgba(0, 255, 136, 0.05) !important;
-        border-bottom: 2px solid #00ff88 !important;
-        box-shadow: 0 0 40px rgba(0, 255, 136, 0.2) !important;
-    }
-
-    /* Submit Button - The Glow Pulse */
-    div[data-testid="stButton"] button {
-        background: rgba(255, 255, 255, 0.05) !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        color: #ffffff !important;
-        border-radius: 20px !important;
-        padding: 1.5rem 4rem !important;
-        font-family: 'Space Grotesk', sans-serif !important;
-        font-weight: 800 !important;
-        text-transform: uppercase;
-        letter-spacing: 0.5rem;
-        transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
-        width: 100% !important;
-        margin-top: 4rem !important;
-        font-size: 1.1rem !important;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
-    }
-
-    div[data-testid="stButton"] button:hover {
-        background: #00ff88 !important;
-        color: #000000 !important;
+    .stTextArea textarea:focus {
         border-color: #00ff88 !important;
-        box-shadow: 0 0 100px rgba(0, 255, 136, 1) !important;
-        transform: translateY(-10px) scale(1.02) !important;
-    }
-
-    div[data-testid="stButton"] button:active {
-        transform: translateY(-2px) scale(0.98) !important;
-    }
-
-    /* Intelligence Terminal - border-bottom inputs */
-    .stTextInput input, .stTextArea textarea {
-        background-color: transparent !important;
-        border: none !important;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
-        border-radius: 0 !important;
-        color: white !important;
-        padding: 1rem 0 !important;
-        font-size: 1.2rem !important;
-    }
-
-    .stTextInput input:focus, .stTextArea textarea:focus {
-        border-bottom: 1px solid #00ff88 !important;
-        box-shadow: none !important;
+        box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.5) !important;
     }
 
     label {
@@ -454,6 +420,19 @@ st.markdown("""
         letter-spacing: 0.1em;
         margin-top: 2rem;
         margin-bottom: 0.5rem;
+    }
+
+    /* Footer Social Links Glow */
+    .footer-link {
+        color: rgba(255, 255, 255, 0.4) !important;
+        text-decoration: none !important;
+        transition: all 0.3s ease !important;
+    }
+
+    .footer-link:hover {
+        color: #00ff88 !important;
+        text-shadow: 0 0 10px #00ff88 !important;
+        opacity: 1 !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -536,8 +515,10 @@ My work revolves around VLSI architecture, semiconductor physics, and high-power
 """, unsafe_allow_html=True)
 
 components.html("""
-    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/3dA8m5G6o4cppV7Cj4BZAH?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-""", height=160)
+    <div style="background: rgba(255, 255, 255, 0.03); border-radius: 16px; border: 1px solid rgba(0, 255, 136, 0.2); padding: 16px;">
+        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/3dA8m5G6o4cppV7Cj4BZAH?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    </div>
+""", height=190)
 
 # --- SECTION 2: AI PROXY ---
 st.markdown("<hr style='opacity: 0.1; margin: 4rem 0;'>", unsafe_allow_html=True)
@@ -552,12 +533,12 @@ if "messages" not in st.session_state:
 with st.container():
     st.markdown('<div class="glow-input-container">', unsafe_allow_html=True)
     with st.form("neural_input_form", clear_on_submit=True):
-        col_in, col_btn = st.columns([4, 1])
+        col_in, col_btn = st.columns([5, 1])
         with col_in:
-            prompt = st.text_input("QUERY", label_visibility="collapsed", placeholder="Execute command (e.g. 'Show me your VLSI plans')...")
+            prompt = st.text_input("QUERY", label_visibility="collapsed", placeholder="Ask about VLSI or my 3D printing business...")
         with col_btn:
-            # Modern Industrial Button
-            submit_bot = st.form_submit_button("EXECUTE")
+            # Solid neon button with icon
+            submit_bot = st.form_submit_button("➤")
     st.markdown('</div>', unsafe_allow_html=True)
 
 if submit_bot and prompt:
@@ -680,9 +661,9 @@ st.markdown(f"""
     <div style='text-align: center; padding: 6rem 0 4rem 0; font-family: monospace; font-size: 0.7rem; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 6rem;'>
         <p style='color: rgba(255,255,255,0.3);'>© 2026 V JERNICK SAMUEL. ALL SYSTEMS NOMINAL.</p>
         <div style='display: flex; justify-content: center; gap: 2rem; margin-top: 2rem;'>
-            <a href='https://www.linkedin.com/in/jernick7' style='color: white; text-decoration: none; opacity: 0.5;'>LINKEDIN</a> 
-            <a href='https://www.instagram.com/jernick7/' style='color: white; text-decoration: none; opacity: 0.5;'>INSTAGRAM</a> 
-            <a href='https://github.com/Jernick7' style='color: white; text-decoration: none; opacity: 0.5;'>GITHUB</a>
+            <a href='https://www.linkedin.com/in/jernick7' class='footer-link'>LINKEDIN</a> 
+            <a href='https://www.instagram.com/jernick7/' class='footer-link'>INSTAGRAM</a> 
+            <a href='https://github.com/Jernick7' class='footer-link'>GITHUB</a>
         </div>
     </div>
 """, unsafe_allow_html=True)
