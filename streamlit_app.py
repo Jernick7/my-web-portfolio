@@ -64,26 +64,54 @@ st.markdown("""
     /* Code Bio Style */
     .code-bio {
         background: rgba(0, 0, 0, 0.5);
-        border-left: 2px solid #00ff88;
+        border: 1px solid rgba(0, 255, 136, 0.1);
+        border-left: 3px solid #00ff88;
         padding: 1.5rem;
         font-family: 'JetBrains Mono', monospace;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         border-radius: 4px 12px 12px 4px;
         margin-bottom: 2.5rem;
         position: relative;
         overflow: hidden;
+        box-shadow: inset 0 0 20px rgba(0, 255, 136, 0.05);
     }
 
-    .code-bio::before {
-        content: 'BIO.EXE';
+    /* Identity Log - Terminal Style */
+    div[data-testid="stForm"] {
+        background: rgba(0, 255, 136, 0.01) !important;
+        border: 1px solid rgba(0, 255, 136, 0.1) !important;
+        border-radius: 24px !important;
+        padding: 3rem !important;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 0 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 255, 136, 0.05) !important;
+    }
+
+    div[data-testid="stForm"]::before {
+        content: "";
         position: absolute;
         top: 0;
-        right: 0;
-        padding: 4px 8px;
-        background: rgba(0, 255, 136, 0.1);
-        color: #00ff88;
-        font-size: 0.6rem;
-        letter-spacing: 1px;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 2px,
+            rgba(0, 255, 136, 0.02) 2px,
+            rgba(0, 255, 136, 0.02) 4px
+        );
+        pointer-events: none;
+    }
+
+    @keyframes border-glow {
+        0% { border-color: rgba(0, 255, 136, 0.1); }
+        50% { border-color: rgba(0, 255, 136, 0.4); }
+        100% { border-color: rgba(0, 255, 136, 0.1); }
+    }
+
+    div[data-testid="stForm"] {
+        animation: border-glow 4s ease-in-out infinite;
     }
 
     .code-keyword { color: #ff79c6; }
@@ -255,17 +283,17 @@ st.markdown(f"""
 <span class="code-comment">// Protocol: About Me</span><br>
 <span class="code-keyword">const</span> <span class="code-function">innovationTarget</span> = <span class="code-string">"electronics | space | defense"</span>;<br>
 <br>
-<span class="code-keyword">class</span> <span class="code-function">JernickSamuel</span> {<br>
-&nbsp;&nbsp;<span class="code-keyword">constructor</span>() {<br>
+<span class="code-keyword">class</span> <span class="code-function">JernickSamuel</span> {{<br>
+&nbsp;&nbsp;<span class="code-keyword">constructor</span>() {{<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">this</span>.age = <span class="code-string">18</span>;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">this</span>.location = <span class="code-string">"India"</span>;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">this</span>.focus = [<span class="code-string">"VLSI"</span>, <span class="code-string">"Semiconductors"</span>, <span class="code-string">"High-Power Rocketry"</span>];<br>
-&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;}}<br>
 <br>
-&nbsp;&nbsp;<span class="code-function">status</span>() {<br>
+&nbsp;&nbsp;<span class="code-function">status</span>() {{<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">return</span> <span class="code-string">"Deeply immersed in the world of silicon and aerospace."</span>;<br>
-&nbsp;&nbsp;}<br>
-}<br>
+&nbsp;&nbsp;}}<br>
+}}<br>
 </div>
 
 <div class="bento-container">
