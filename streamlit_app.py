@@ -466,8 +466,10 @@ def get_model():
         """, unsafe_allow_html=True)
         return None
     genai.configure(api_key=api_key)
-    # Using explicit models/ prefix to resolve some environment resolution issues
-    return genai.GenerativeModel('models/gemini-1.5-flash', system_instruction=SYSTEM_INSTRUCTIONS)
+    try:
+        return genai.GenerativeModel('gemini-1.5-flash-latest', system_instruction=SYSTEM_INSTRUCTIONS)
+    except Exception:
+        return genai.GenerativeModel('gemini-1.0-pro')
 
 # --- HEADER SECTION ---
 st.markdown(f"""
