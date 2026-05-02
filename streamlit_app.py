@@ -19,10 +19,34 @@ st.markdown("""
     .stApp {
         background-color: #050505;
         background-image: 
-            radial-gradient(circle at 10% 20%, rgba(0, 255, 136, 0.05) 0%, transparent 40%),
-            radial-gradient(circle at 90% 80%, rgba(0, 255, 136, 0.05) 0%, transparent 40%);
+            radial-gradient(circle at 20% 30%, rgba(0, 255, 136, 0.05) 0%, transparent 50%),
+            radial-gradient(circle at 80% 70%, rgba(0, 255, 136, 0.05) 0%, transparent 50%),
+            linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+        background-size: 100% 100%, 100% 100%, 50px 50px, 50px 50px;
+        background-attachment: fixed;
         color: #e0e0e0;
         font-family: 'Inter', sans-serif;
+    }
+
+    /* Background Animation */
+    @keyframes glow-pulse {
+        0% { opacity: 0.5; }
+        50% { opacity: 1; }
+        100% { opacity: 0.5; }
+    }
+
+    .stApp::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at center, rgba(0, 255, 136, 0.03) 0%, transparent 70%);
+        pointer-events: none;
+        animation: glow-pulse 10s ease-in-out infinite;
+        z-index: -1;
     }
 
     /* Neon Green Glow */
@@ -37,6 +61,36 @@ st.markdown("""
         font-weight: 700 !important;
     }
 
+    /* Code Bio Style */
+    .code-bio {
+        background: rgba(0, 0, 0, 0.5);
+        border-left: 2px solid #00ff88;
+        padding: 1.5rem;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.9rem;
+        border-radius: 4px 12px 12px 4px;
+        margin-bottom: 2.5rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .code-bio::before {
+        content: 'BIO.EXE';
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 4px 8px;
+        background: rgba(0, 255, 136, 0.1);
+        color: #00ff88;
+        font-size: 0.6rem;
+        letter-spacing: 1px;
+    }
+
+    .code-keyword { color: #ff79c6; }
+    .code-string { color: #f1fa8c; }
+    .code-comment { color: #6272a4; font-weight: 300; }
+    .code-function { color: #50fa7b; }
+
     /* Bento Grid Elements */
     .bento-container {
         display: grid;
@@ -46,19 +100,46 @@ st.markdown("""
     }
 
     .bento-item, .bento-card {
-        background: rgba(255, 255, 255, 0.02);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.01);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 20px;
         padding: 2rem;
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+        position: relative;
+        overflow: hidden;
     }
 
-    .bento-item:hover, .bento-card:hover {
+    .bento-item::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(800px circle at var(--x) var(--y), rgba(0, 255, 136, 0.05), transparent 40%);
+        opacity: 0;
+        transition: opacity 0.5s;
+    }
+
+    .bento-item:hover {
         background: rgba(0, 255, 136, 0.02);
-        border-color: rgba(0, 255, 136, 0.4);
-        transform: translateY(-8px);
-        box-shadow: 0 10px 40px rgba(0, 255, 136, 0.1);
+        border-color: rgba(0, 255, 136, 0.3);
+        box-shadow: 0 0 30px rgba(0, 255, 136, 0.1);
+        transform: translateY(-5px);
+    }
+
+    /* Chat Styling - Technical */
+    .stChatMessage {
+        background: rgba(255, 255, 255, 0.02) !important;
+        border: 1px solid rgba(255, 255, 255, 0.05) !important;
+        border-radius: 12px !important;
+        margin-bottom: 1rem !important;
+    }
+
+    .stChatMessage [data-testid="stMarkdownContainer"] {
+        font-family: 'Inter', sans-serif !important;
+        font-size: 0.95rem !important;
+        line-height: 1.6 !important;
     }
 
     .bento-icon {
@@ -80,7 +161,7 @@ st.markdown("""
     }
 
     /* Submit Button - NVIDIA Glow */
-    .stButton button {
+    div[data-testid="stButton"] button {
         background: rgba(255, 255, 255, 0.05) !important;
         border: 1px solid rgba(255, 255, 255, 0.1) !important;
         color: white !important;
@@ -91,16 +172,16 @@ st.markdown("""
         text-transform: uppercase;
         letter-spacing: 0.2rem;
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
-        width: 320px !important;
-        margin: 2rem 0 !important;
+        width: 100% !important;
+        margin: 1rem 0 !important;
     }
 
-    .stButton button:hover {
+    div[data-testid="stButton"] button:hover {
         background: #00ff88 !important;
         color: black !important;
         border-color: #00ff88 !important;
-        box-shadow: 0 0 30px rgba(0, 255, 136, 0.6) !important;
-        transform: translateY(-5px) scale(1.02);
+        box-shadow: 0 0 40px rgba(0, 255, 136, 0.8) !important;
+        transform: translateY(-5px) !important;
     }
 
     /* Intelligence Terminal - border-bottom inputs */
@@ -170,11 +251,22 @@ st.markdown(f"""
 # --- SECTION 1: BENTO ABOUT ME ---
 st.markdown(f"""
 <div style='max-width: 800px; margin: 0 auto;'>
-<p style='font-size: 1.2rem; line-height: 1.6; color: rgba(255,255,255,0.8); margin-bottom: 2rem;'>
-I am an 18-year-old innovator from <span style="color: white; font-weight: 600;">India</span>. 
-My journey exists at the high-stakes intersection of <span class="highlight">electronics, space, and defense</span>. 
-I am deeply immersed in the world of VLSI, semiconductors, and high-power rocketry.
-</p>
+<div class="code-bio">
+<span class="code-comment">// Protocol: About Me</span><br>
+<span class="code-keyword">const</span> <span class="code-function">innovationTarget</span> = <span class="code-string">"electronics | space | defense"</span>;<br>
+<br>
+<span class="code-keyword">class</span> <span class="code-function">JernickSamuel</span> {<br>
+&nbsp;&nbsp;<span class="code-keyword">constructor</span>() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">this</span>.age = <span class="code-string">18</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">this</span>.location = <span class="code-string">"India"</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">this</span>.focus = [<span class="code-string">"VLSI"</span>, <span class="code-string">"Semiconductors"</span>, <span class="code-string">"High-Power Rocketry"</span>];<br>
+&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;<span class="code-function">status</span>() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">return</span> <span class="code-string">"Deeply immersed in the world of silicon and aerospace."</span>;<br>
+&nbsp;&nbsp;}<br>
+}<br>
+</div>
 
 <div class="bento-container">
 <div class="bento-item">
