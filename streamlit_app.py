@@ -6,6 +6,8 @@ from firebase_admin import credentials, firestore
 import json
 import os
 from datetime import datetime
+import smtplib
+from email.message import EmailMessage
 
 # --- PAGE CONFIG ---
 st.set_page_config(page_title="Jernick Samuel | Portfolio", page_icon="🚀", layout="centered")
@@ -627,11 +629,35 @@ with st.form("terminal_intel", clear_on_submit=True):
     st.markdown("<br>", unsafe_allow_html=True)
     submit_button = st.form_submit_button("SUBMIT INTELLIGENCE")
     
-    if submit_button:
+    
+
+if submit_button:
         if v_name and v_email and v_content:
-            st.success(f"Transmission received. Intelligence logged for {v_name}.")
+            try:
+                # 1. Format the transmission
+                msg = EmailMessage()
+                msg.set_content(f"AGENT IDENTIFIER: {v_name}\nCONTACT LINK: {v_email}\n\nINTELLIGENCE LOG:\n{v_content}")
+                msg['Subject'] = f"PORTFOLIO: New Intel Trace from {v_name}"
+                
+                # 2. Fetch secure credentials
+                sender = st.secrets["EMAIL_ADDRESS"]
+                password = st.secrets["EMAIL_PASSWORD"]
+                
+                msg['From'] = sender
+                msg['To'] = sender # Sends the email to yourself
+                
+                # 3. Connect to Gmail Server and fire
+                server = smtplib.SMTP('smtp.gmail.com', 587)
+                server.starttls()
+                server.login(sender, password)
+                server.send_message(msg)
+                server.quit()
+                
+                st.success(f"Transmission received. Intelligence logged and routed to secure server.")
+            except Exception as e:
+                st.error("Transmission failed. Secure link compromised or secrets missing.")
         else:
-            st.error("Jernick says: Protocol violation. All fields required.")
+            st.error("Protocol violation. All fields required.")
 
 # --- PROJECTS BENTO (OPTIONAL - GIVING MORE CONTENT) ---
 st.markdown("<hr>", unsafe_allow_html=True)
