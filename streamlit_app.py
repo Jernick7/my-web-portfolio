@@ -16,23 +16,23 @@ st.markdown("""
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
       /* Global Reset & Theme */
     .stApp {
-        background-color: #050505;
+        background-color: #0c0f14;
         background-image: 
-            radial-gradient(circle at 20% 30%, rgba(0, 255, 136, 0.05) 0%, transparent 50%),
-            radial-gradient(circle at 80% 70%, rgba(0, 255, 136, 0.05) 0%, transparent 50%),
-            linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-        background-size: 100% 100%, 100% 100%, 60px 60px, 60px 60px;
+            radial-gradient(circle at 15% 25%, rgba(0, 255, 136, 0.08) 0%, transparent 45%),
+            radial-gradient(circle at 85% 75%, rgba(0, 255, 136, 0.08) 0%, transparent 45%),
+            linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        background-size: 100% 100%, 100% 100%, 75px 75px, 75px 75px;
         background-attachment: fixed;
-        color: #e0e0e0;
+        color: #eef1f5;
         font-family: 'Inter', sans-serif;
     }
 
     /* Background Animation */
     @keyframes glow-pulse {
-        0% { opacity: 0.4; }
-        50% { opacity: 0.8; }
-        100% { opacity: 0.4; }
+        0% { opacity: 0.3; }
+        50% { opacity: 0.7; }
+        100% { opacity: 0.3; }
     }
 
     .stApp::before {
@@ -42,10 +42,24 @@ st.markdown("""
         left: 0;
         width: 100%;
         height: 100%;
-        background: radial-gradient(circle at center, rgba(0, 255, 136, 0.01) 0%, transparent 70%);
+        background: radial-gradient(circle at center, rgba(0, 255, 136, 0.02) 0%, transparent 70%);
         pointer-events: none;
-        animation: glow-pulse 12s ease-in-out infinite;
+        animation: glow-pulse 10s ease-in-out infinite;
         z-index: -1;
+    }
+
+    /* Glowing Text Label */
+    .section-header-glow {
+        font-family: 'Space Grotesk', sans-serif !important;
+        font-size: 3.5rem !important;
+        font-weight: 800 !important;
+        text-align: center;
+        color: white;
+        margin-bottom: 3rem;
+        background: linear-gradient(to bottom, #ffffff, #888888);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        position: relative;
     }
 
     /* Neon Green Glow */
@@ -63,14 +77,17 @@ st.markdown("""
 
     /* Modern Bio Style */
     .modern-bio {
-        font-size: 1.25rem;
+        font-size: 1.4rem;
         line-height: 1.6;
-        color: rgba(255, 255, 255, 0.8);
-        border-left: 3px solid #00ff88;
-        padding-left: 2.5rem;
-        margin: 4rem 0;
-        max-width: 800px;
+        color: rgba(255, 255, 255, 0.9);
+        border-left: 5px solid #00ff88;
+        padding: 1.5rem 0 1.5rem 3.5rem;
+        margin: 5rem 0;
+        max-width: 850px;
         position: relative;
+        font-weight: 400;
+        letter-spacing: -0.02em;
+        background: linear-gradient(90deg, rgba(0, 255, 136, 0.05), transparent);
     }
 
     .bio-accent {
@@ -78,41 +95,40 @@ st.markdown("""
         color: #00ff88;
         font-size: 0.8rem;
         text-transform: uppercase;
-        letter-spacing: 0.2rem;
+        letter-spacing: 0.3rem;
         display: block;
-        margin-bottom: 1rem;
-        opacity: 0.7;
+        margin-bottom: 1.5rem;
+        opacity: 0.8;
     }
 
     /* Form - Digital Vault Aesthetic */
     div[data-testid="stForm"] {
-        background: rgba(0, 0, 0, 0.2) !important;
-        border: 1px solid rgba(0, 255, 136, 0.1) !important;
-        border-radius: 40px !important;
-        padding: 4rem !important;
-        box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5) !important;
+        background: rgba(255, 255, 255, 0.02) !important;
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(0, 255, 136, 0.15) !important;
+        border-radius: 48px !important;
+        padding: 5rem !important;
+        box-shadow: 0 50px 100px rgba(0, 0, 0, 0.8), inset 0 0 50px rgba(0, 255, 136, 0.03) !important;
         position: relative;
+        overflow: hidden;
     }
 
-    @keyframes form-pulse {
-        0%, 100% { border-color: rgba(0, 255, 136, 0.1); }
-        50% { border-color: rgba(0, 255, 136, 0.4); }
+    @keyframes form-scan {
+        0% { transform: translateY(-100%); opacity: 0; }
+        50% { opacity: 0.2; }
+        100% { transform: translateY(100%); opacity: 0; }
     }
 
-    div[data-testid="stForm"] {
-        animation: form-pulse 6s infinite ease-in-out;
-    }
-
-    /* Input Styling */
-    .stTextInput input, .stTextArea textarea {
-        background-color: transparent !important;
-        border: none !important;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
-        border-radius: 0 !important;
-        color: white !important;
-        padding: 1.8rem 0 0.8rem 0 !important;
-        font-size: 1.1rem !important;
-        transition: all 0.4s ease !important;
+    div[data-testid="stForm"]::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100px;
+        background: linear-gradient(to bottom, transparent, rgba(0, 255, 136, 0.1), transparent);
+        animation: form-scan 6s linear infinite;
+        pointer-events: none;
     }
 
     /* Chat Styling - Technical */
@@ -176,29 +192,52 @@ st.markdown("""
         line-height: 1.5;
     }
 
-    /* Submit Button - The Glow */
-    div[data-testid="stButton"] button {
-        background: rgba(255, 255, 255, 0.03) !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    /* Input Styling - High End */
+    .stTextInput input, .stTextArea textarea {
+        background-color: rgba(255, 255, 255, 0.03) !important;
+        border: none !important;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.05) !important;
+        border-radius: 8px 8px 0 0 !important;
         color: white !important;
-        border-radius: 16px !important;
-        padding: 1.2rem 3.5rem !important;
+        padding: 2rem 1rem 1rem 1rem !important;
+        font-size: 1.2rem !important;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+
+    .stTextInput input:focus, .stTextArea textarea:focus {
+        background-color: rgba(0, 255, 136, 0.05) !important;
+        border-bottom: 2px solid #00ff88 !important;
+        box-shadow: 0 0 40px rgba(0, 255, 136, 0.2) !important;
+    }
+
+    /* Submit Button - The Glow Pulse */
+    div[data-testid="stButton"] button {
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        color: #ffffff !important;
+        border-radius: 20px !important;
+        padding: 1.5rem 4rem !important;
         font-family: 'Space Grotesk', sans-serif !important;
-        font-weight: 700 !important;
+        font-weight: 800 !important;
         text-transform: uppercase;
-        letter-spacing: 0.4rem;
-        transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1) !important;
+        letter-spacing: 0.5rem;
+        transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
         width: 100% !important;
-        margin-top: 3rem !important;
-        margin-bottom: 1rem !important;
+        margin-top: 4rem !important;
+        font-size: 1.1rem !important;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
     }
 
     div[data-testid="stButton"] button:hover {
         background: #00ff88 !important;
-        color: black !important;
+        color: #000000 !important;
         border-color: #00ff88 !important;
-        box-shadow: 0 0 60px rgba(0, 255, 136, 0.9) !important;
-        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 0 100px rgba(0, 255, 136, 1) !important;
+        transform: translateY(-10px) scale(1.02) !important;
+    }
+
+    div[data-testid="stButton"] button:active {
+        transform: translateY(-2px) scale(0.98) !important;
     }
 
     /* Intelligence Terminal - border-bottom inputs */
@@ -249,10 +288,21 @@ Never hallucinate info outside of this context."""
 # --- GEMINI SETUP ---
 @st.cache_resource
 def get_model():
-    # Use secrets for API Key in Streamlit Cloud
-    api_key = st.secrets["GEMINI_API_KEY"] if "GEMINI_API_KEY" in st.secrets else os.getenv("GEMINI_API_KEY")
+    # Priority: Streamlit Secrets -> Environment Variables
+    api_key = None
+    try:
+        api_key = st.secrets["GEMINI_API_KEY"]
+    except:
+        api_key = os.getenv("GEMINI_API_KEY")
+
     if not api_key:
-        st.error("Missing GEMINI_API_KEY. Please add it to Streamlit Secrets.")
+        st.markdown("""
+        <div style='background: rgba(255, 80, 80, 0.1); border: 1px solid rgba(255, 80, 80, 0.3); padding: 2rem; border_radius: 20px; text-align: center;'>
+            <p style='color: #ff5050; font-family: monospace; font-size: 0.8rem; margin: 0;'>[ERROR: NEURAL_LINK_FAILED]</p>
+            <p style='color: white; font-weight: 600; margin-top: 0.5rem;'>Missing GEMINI_API_KEY</p>
+            <p style='color: rgba(255,255,255,0.5); font-size: 0.8rem;'>Add the key to your Streamlit Cloud <b>Secrets</b> to activate the Proxy.</p>
+        </div>
+        """, unsafe_allow_html=True)
         return None
     genai.configure(api_key=api_key)
     return genai.GenerativeModel('gemini-1.5-flash', system_instruction=SYSTEM_INSTRUCTIONS)
@@ -307,51 +357,60 @@ components.html("""
 """, height=160)
 
 # --- SECTION 2: AI PROXY ---
-st.markdown("<hr>", unsafe_allow_html=True)
+st.markdown("<hr style='opacity: 0.1; margin: 4rem 0;'>", unsafe_allow_html=True)
 st.markdown("<p style='text-align: center; font-family: monospace; color: #00ff88; font-size: 0.8rem; letter-spacing: 0.3em; margin-bottom: 0;'>NEURAL INTERFACE</p>", unsafe_allow_html=True)
-st.markdown("<h2 style='text-align: center; margin-top: 0.5rem;'>Digital <span class='highlight'>Proxy</span></h2>", unsafe_allow_html=True)
+st.markdown("<h2 style='text-align: center; margin-top: 0.5rem; font-size: 3rem;'>Digital <span class='highlight'>Proxy</span></h2>", unsafe_allow_html=True)
 
 model = get_model()
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Chat display in a contained area
-chat_container = st.container()
-with chat_container:
-    for message in st.session_state.messages:
-        with st.chat_message(message["role"]):
-            st.markdown(message["content"])
+# Inline Terminal Container
+with st.container():
+    # Chat display area
+    chat_placeholder = st.container()
+    with chat_placeholder:
+        if not st.session_state.messages:
+            st.markdown("""
+            <div style='text-align: center; color: rgba(0, 255, 136, 0.4); font-family: monospace; font-size: 0.75rem; margin: 3rem 0;'>
+                [SYSTEM_READY: AWAITING ENCRYPTED COMMAND]
+            </div>
+            """, unsafe_allow_html=True)
+        else:
+            for message in st.session_state.messages:
+                with st.chat_message(message["role"]):
+                    st.markdown(message["content"])
 
-# Chat input
-if prompt := st.chat_input("Query local history or projects..."):
-    st.session_state.messages.append({"role": "user", "content": prompt})
-    with chat_container:
-        with st.chat_message("user"):
-            st.markdown(prompt)
+    # Inline Input using a form to keep it together
+    with st.form("proxy_input_form", clear_on_submit=True):
+        col1, col2 = st.columns([5, 1])
+        with col1:
+            prompt = st.text_input("QUERY_PROXY", label_visibility="collapsed", placeholder="Execute command or query database...")
+        with col2:
+            submit_bot = st.form_submit_button("EXECUTE")
 
-    if model:
-        with chat_container:
-            with st.chat_message("assistant"):
-                response_placeholder = st.empty()
-                full_response = ""
-                try:
-                    history = [{"role": "user" if m["role"] == "user" else "model", "parts": [m["content"]]} for m in st.session_state.messages]
-                    chat = model.start_chat(history=history[:-1])
-                    response = chat.send_message(prompt)
-                    full_response = response.text
-                    response_placeholder.markdown(full_response)
-                except Exception as e:
-                    full_response = "Interface offline. Verify API configuration."
-                    response_placeholder.error(full_response)
-                
-                st.session_state.messages.append({"role": "assistant", "content": full_response})
+    if submit_bot and prompt:
+        st.session_state.messages.append({"role": "user", "content": prompt})
+        # Note: In Streamlit, a form submission causes a rerun. 
+        # The messages will be displayed in the next run's display loop above.
+        # To handle the response immediately, we can use the logic here then rerun.
+        
+        if model:
+            try:
+                history = [{"role": "user" if m["role"] == "user" else "model", "parts": [m["content"]]} for m in st.session_state.messages]
+                chat = model.start_chat(history=history[:-1])
+                response = chat.send_message(prompt)
+                st.session_state.messages.append({"role": "assistant", "content": response.text})
+            except Exception as e:
+                st.session_state.messages.append({"role": "assistant", "content": "INTERFACE ERROR: Link unstable. Verify API configuration."})
+            st.rerun()
 
 # --- SECTION 3: INTELLIGENCE TERMINAL ---
 st.markdown("<hr>", unsafe_allow_html=True)
 st.markdown("""
-<div style='text-align: center; margin-bottom: 3rem;'>
-<p class="terminal-header">IDENTITY LOG</p>
-<h2>Leave a <span class='highlight'>Trace</span></h2>
+<div style='text-align: center; margin-bottom: 4rem; margin-top: 4rem;'>
+<p class="bio-accent">SYSTEM: IDENTITY_LOG</p>
+<h1 class="section-header-glow">Leave a <span class='highlight' style='font-size: inherit; text-shadow: 0 0 40px rgba(0, 255, 136, 0.6);'>Trace</span></h1>
 </div>
 """, unsafe_allow_html=True)
 
