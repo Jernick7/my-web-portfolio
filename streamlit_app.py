@@ -131,18 +131,58 @@ st.markdown("""
         pointer-events: none;
     }
 
-    /* Chat Styling - Technical */
-    .stChatMessage {
-        background: rgba(255, 255, 255, 0.02) !important;
-        border: 1px solid rgba(255, 255, 255, 0.05) !important;
-        border-radius: 12px !important;
-        margin-bottom: 1rem !important;
+    /* Chat Styling - Technical Neural Link */
+    .chat-container {
+        max-height: 500px;
+        overflow-y: auto;
+        padding: 1.5rem;
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 24px;
+        border: 1px solid rgba(0, 255, 136, 0.05);
+        margin-bottom: 2rem;
     }
 
-    .stChatMessage [data-testid="stMarkdownContainer"] {
-        font-family: 'Inter', sans-serif !important;
-        font-size: 0.95rem !important;
-        line-height: 1.6 !important;
+    .msg-block {
+        margin-bottom: 1.5rem;
+        padding: 1.2rem;
+        border-radius: 16px;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        position: relative;
+    }
+
+    .msg-user {
+        background: rgba(255, 255, 255, 0.03);
+        border-right: 3px solid #00ff88;
+        margin-left: 2rem;
+        color: #eef1f5;
+    }
+
+    .msg-ai {
+        background: rgba(0, 255, 136, 0.03);
+        border-left: 3px solid #00ff88;
+        margin-right: 2rem;
+        color: #00ff88;
+    }
+
+    .msg-label {
+        font-family: monospace;
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.2rem;
+        margin-bottom: 0.5rem;
+        opacity: 0.5;
+        display: block;
+    }
+
+    .error-gate {
+        background: rgba(255, 80, 80, 0.05);
+        border: 1px solid rgba(255, 80, 80, 0.2);
+        padding: 1.5rem;
+        border-radius: 12px;
+        color: #ff5050;
+        font-family: monospace;
+        font-size: 0.8rem;
     }
 
     /* Bento Grid Elements - NVIDIA Aesthetic */
@@ -365,35 +405,42 @@ model = get_model()
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Inline Terminal Container
+# Terminal Container
 with st.container():
-    # Chat display area
-    chat_placeholder = st.container()
-    with chat_placeholder:
-        if not st.session_state.messages:
-            st.markdown("""
-            <div style='text-align: center; color: rgba(0, 255, 136, 0.4); font-family: monospace; font-size: 0.75rem; margin: 3rem 0;'>
-                [SYSTEM_READY: AWAITING ENCRYPTED COMMAND]
+    # Render custom messages
+    if not st.session_state.messages:
+        st.markdown("""
+        <div style='text-align: center; color: rgba(0, 255, 136, 0.2); font-family: monospace; font-size: 0.75rem; margin: 5rem 0;'>
+            [SYSTEM_IDLE: AWAITING NEURAL LINK COMMAND]<br>
+            <span style='font-size: 0.6rem; opacity: 0.5;'>TYPE QUERY BELOW AND PRESS EXECUTE</span>
+        </div>
+        """, unsafe_allow_html=True)
+    else:
+        # Use a div to contain the messages with a fixed height and scroll
+        chat_html = "<div class='chat-container'>"
+        for msg in st.session_state.messages:
+            role_css = "msg-user" if msg["role"] == "user" else "msg-ai"
+            role_label = "COMMAND_ID" if msg["role"] == "user" else "LINK_RESPONSE"
+            chat_html += f"""
+            <div class='msg-block {role_css}'>
+                <span class='msg-label'>{role_label}</span>
+                {msg["content"]}
             </div>
-            """, unsafe_allow_html=True)
-        else:
-            for message in st.session_state.messages:
-                with st.chat_message(message["role"]):
-                    st.markdown(message["content"])
+            """
+        chat_html += "</div>"
+        st.markdown(chat_html, unsafe_allow_html=True)
 
-    # Inline Input using a form to keep it together
-    with st.form("proxy_input_form", clear_on_submit=True):
-        col1, col2 = st.columns([5, 1])
-        with col1:
-            prompt = st.text_input("QUERY_PROXY", label_visibility="collapsed", placeholder="Execute command or query database...")
-        with col2:
-            submit_bot = st.form_submit_button("EXECUTE")
+    # High-End Single Line Input
+    with st.form("proxy_terminal", clear_on_submit=True):
+        prompt = st.text_input("EXECUTE_QUERY", label_visibility="collapsed", placeholder="Execute command (e.g. 'Show VLSI projects' or 'Who is Jernick?')")
+        
+        # Center the execute button visually within the terminal look
+        b_col1, b_col2, b_col3 = st.columns([1, 2, 1])
+        with b_col2:
+            submit_bot = st.form_submit_button("EXECUTE DATA LINK")
 
     if submit_bot and prompt:
         st.session_state.messages.append({"role": "user", "content": prompt})
-        # Note: In Streamlit, a form submission causes a rerun. 
-        # The messages will be displayed in the next run's display loop above.
-        # To handle the response immediately, we can use the logic here then rerun.
         
         if model:
             try:
@@ -402,7 +449,16 @@ with st.container():
                 response = chat.send_message(prompt)
                 st.session_state.messages.append({"role": "assistant", "content": response.text})
             except Exception as e:
-                st.session_state.messages.append({"role": "assistant", "content": "INTERFACE ERROR: Link unstable. Verify API configuration."})
+                # Capture the real error to help user fix their API key
+                error_msg = str(e)
+                if "API_KEY_INVALID" in error_msg or "403" in error_msg:
+                    friendly_error = "[SYSTEM_CRITICAL]: The API Key provided is invalid. Please reset it in your Streamlit Cloud secrets."
+                elif "quota" in error_msg.lower():
+                    friendly_error = "[SYSTEM_THROTTLED]: Neural bandwidth exceeded. Try again in 60 seconds."
+                else:
+                    friendly_error = f"[LINK_ERROR]: {error_msg if len(error_msg) < 100 else 'Handshake failed.'}"
+                
+                st.session_state.messages.append({"role": "assistant", "content": f"<div class='error-gate'>{friendly_error}</div>"})
             st.rerun()
 
 # --- SECTION 3: INTELLIGENCE TERMINAL ---
