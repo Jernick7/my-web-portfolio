@@ -457,16 +457,10 @@ def get_model():
         api_key = os.getenv("GEMINI_API_KEY")
 
     if not api_key:
-        st.markdown("""
-        <div style='background: rgba(255, 80, 80, 0.1); border: 1px solid rgba(255, 80, 80, 0.3); padding: 2rem; border_radius: 20px; text-align: center;'>
-            <p style='color: #ff5050; font-family: monospace; font-size: 0.8rem; margin: 0;'>[ERROR: NEURAL_LINK_FAILED]</p>
-            <p style='color: white; font-weight: 600; margin-top: 0.5rem;'>Missing GEMINI_API_KEY</p>
-            <p style='color: rgba(255,255,255,0.5); font-size: 0.8rem;'>Add the key to your Streamlit Cloud <b>Secrets</b> to activate the Proxy.</p>
-        </div>
-        """, unsafe_allow_html=True)
+        st.error("Missing GEMINI_API_KEY. Add it to Streamlit Secrets to activate Proxy.")
         return None
     genai.configure(api_key=api_key)
-    return genai.GenerativeModel('gemini-1.0-pro')
+    return genai.GenerativeModel('gemini-pro')
 
 # --- HEADER SECTION ---
 st.markdown(f"""
@@ -528,51 +522,6 @@ model = get_model()
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Glowing Input Field - Relocated to Header Area
-with st.container():
-    st.markdown('<div class="glow-input-container">', unsafe_allow_html=True)
-    with st.form("neural_input_form", clear_on_submit=True):
-        col_in, col_btn = st.columns([5, 1])
-        with col_in:
-            prompt = st.text_input("QUERY", label_visibility="collapsed", placeholder="Ask about VLSI or my 3D printing business...")
-        with col_btn:
-            # Solid neon button with icon
-            submit_bot = st.form_submit_button("➤")
-    st.markdown('</div>', unsafe_allow_html=True)
-
-if submit_bot and prompt:
-    st.session_state.messages.append({"role": "user", "content": prompt})
-    
-    if model:
-        try:
-            history = [{"role": "user" if m["role"] == "user" else "model", "parts": [m["content"]]} for m in st.session_state.messages]
-            chat = model.start_chat(history=history[:-1])
-            response = chat.send_message(prompt)
-            st.session_state.messages.append({"role": "assistant", "content": response.text})
-        except Exception as e:
-            error_msg = str(e)
-            if "API_KEY_INVALID" in error_msg or "403" in error_msg:
-                friendly_error = "[SYSTEM_CRITICAL]: Invalid API Key. Please verify your Streamlit Secrets."
-            elif "quota" in error_msg.lower():
-                friendly_error = "[SYSTEM_THROTTLED]: Bandwidth exceeded. Please wait 60s."
-            else:
-                friendly_error = f"[LINK_ERROR]: Handshake failed. ({error_msg[:50]})"
-            
-            st.session_state.messages.insert(1, {"role": "assistant", "content": friendly_error})
-        st.rerun()
-
-# Modern Industrial Terminal UI
-st.markdown("""
-<div class="terminal-container">
-    <div class="terminal-header">
-        <div class="status-indicator">
-            <div class="status-dot"></div>
-            GEMINI 1.5 FLASH CONNECTED
-        </div>
-        <div style="font-family: monospace; font-size: 0.6rem; color: rgba(255,255,255,0.2);">SECURE_LINK::V2.0</div>
-    </div>
-""", unsafe_allow_html=True)
-
 # Chat Display logic
 if not st.session_state.messages:
     st.markdown("""
@@ -589,17 +538,37 @@ if not st.session_state.messages:
     """, unsafe_allow_html=True)
 else:
     for msg in st.session_state.messages:
-        role_css = "msg-user" if msg["role"] == "user" else "msg-ai"
-        role_label = "USER_CMD" if msg["role"] == "user" else "PROXY_RES"
-        content = msg["content"]
-        
         with st.chat_message(msg["role"]):
-            if "[SYSTEM_CRITICAL]" in content or "[LINK_ERROR]" in content:
-                st.markdown(f"<div class='error-gate'>{content}</div>", unsafe_allow_html=True)
-            else:
-                st.markdown(content)
+            st.markdown(msg["content"])
 
 st.markdown("</div>", unsafe_allow_html=True)
+
+if prompt := st.chat_input("Ask about VLSI or my 3D printing business..."):
+    st.session_state.messages.append({"role": "user", "content": prompt})
+    
+    with st.chat_message("user"):
+        st.markdown(prompt)
+
+    if model:
+        try:
+            history = [{"role": "user" if m["role"] == "user" else "model", "parts": [m["content"]]} for m in st.session_state.messages[:-1]]
+            chat = model.start_chat(history=history)
+            response = chat.send_message(prompt)
+            with st.chat_message("assistant"):
+                st.markdown(response.text)
+            st.session_state.messages.append({"role": "assistant", "content": response.text})
+        except Exception as e:
+            error_msg = str(e)
+            if "API_KEY_INVALID" in error_msg or "403" in error_msg:
+                friendly_error = "Invalid API Key. Please verify your Streamlit Secrets."
+            elif "quota" in error_msg.lower():
+                friendly_error = "Bandwidth exceeded. Please wait 60s."
+            else:
+                friendly_error = f"Handshake failed. ({error_msg[:50]})"
+            
+            with st.chat_message("assistant"):
+                st.error(friendly_error)
+            st.session_state.messages.append({"role": "assistant", "content": friendly_error})
 
 # --- SECTION 3: INTELLIGENCE TERMINAL ---
 st.markdown("<hr>", unsafe_allow_html=True)
