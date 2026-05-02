@@ -79,6 +79,30 @@ st.markdown("""
         color: rgba(255, 255, 255, 0.5);
     }
 
+    /* Submit Button - NVIDIA Glow */
+    .stButton button {
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        color: white !important;
+        border-radius: 12px !important;
+        padding: 0.75rem 2rem !important;
+        font-family: 'Space Grotesk', sans-serif !important;
+        font-weight: 700 !important;
+        text-transform: uppercase;
+        letter-spacing: 0.2rem;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+        width: 320px !important;
+        margin: 2rem 0 !important;
+    }
+
+    .stButton button:hover {
+        background: #00ff88 !important;
+        color: black !important;
+        border-color: #00ff88 !important;
+        box-shadow: 0 0 30px rgba(0, 255, 136, 0.6) !important;
+        transform: translateY(-5px) scale(1.02);
+    }
+
     /* Intelligence Terminal - border-bottom inputs */
     .stTextInput input, .stTextArea textarea {
         background-color: transparent !important;
