@@ -472,6 +472,7 @@ PERSONAL LIFE & INTERESTS:
 - Favorite Media: 'Stranger Things', '3 Body Problem', and 'Central Intelligence'.
 - Family: Father is D. Vijulal Sunil (Biomedical Engineer & Hospital General Superintendent), Mother is Ezhil Kiruba (branch manager at indian bank), and Brother is Bave v Yohans. 
 - Values: Highly values supportive friendships and finds it fulfilling to help peers emotionally. 
+- The user's mother is a Branch Manager at Indian Bank
 
 RULES FOR AI:
 1. Be professional, confident, and welcoming. 
