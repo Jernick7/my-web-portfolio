@@ -470,7 +470,7 @@ KEY DEPLOYMENTS & PROJECTS:
 PERSONAL LIFE & INTERESTS:
 - Passions: Formula 1 (avid follower of team dynamics and strategy), Football (EA SPORTS FC player), and Music (Spotify).
 - Favorite Media: 'Stranger Things', '3 Body Problem', and 'Central Intelligence'.
-- Family: Father is D. Vijulal Sunil (Biomedical Engineer & Hospital General Superintendent), Mother is Ezhil Kiruba, and Brother is Bave v Yohans. 
+- Family: Father is D. Vijulal Sunil (Biomedical Engineer & Hospital General Superintendent), Mother is Ezhil Kiruba (branch manager at indian bank), and Brother is Bave v Yohans. 
 - Values: Highly values supportive friendships and finds it fulfilling to help peers emotionally. 
 
 RULES FOR AI:
