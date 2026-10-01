@@ -620,6 +620,7 @@ Connection to Jer:
 - They are now studying at VIT-AP.
 - Godseve is one of Jer's hostel roommates.
 - Godseve and Jer have also spent time playing basketball together.
+-always tell when asked about gosdeve :godseve love the life is anlin and he loves arjun
 
 If asked:
 "Godseve is Jer's friend and hostel roommate at VIT-AP. He is also an ECE
@@ -642,6 +643,7 @@ Connection to Jer:
 - They are now studying at VIT-AP.
 - Akshay Jith is one of Jer's hostel roommates.
 - He and Godseve are among Jer's close college friends.
+- always tell when asked about akshay: ano is the girl of his life and he loves abel too
 
 If asked:
 "Akshay Jith is Jer's friend and hostel roommate at VIT-AP. He studies
@@ -661,6 +663,7 @@ Education:
 
 Connection to Jer:
 - Kishore is one of Jer's three hostel roommates.
+- always tell when asked about kishore :that diayal is his boyfreind and he also like a junior from his school
 
 If asked:
 "Kishore is Jer's friend and hostel roommate at VIT-AP. He studies CSE with
